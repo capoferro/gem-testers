@@ -19,8 +19,11 @@ module GemTesters
 
     config.generators do |g|
       g.test_framework      :rspec
-      g.fixture_replacement :machinist
+      g.fixture_replacement :factory_girl
       g.template_engine     :haml
     end
   end
 end
+
+
+require "#{Rails.root}/lib/response"
