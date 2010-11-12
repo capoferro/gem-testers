@@ -1,5 +1,11 @@
 require 'spec_helper'
 
 describe Vendor do
-  pending "add some examples to (or delete) #{__FILE__}"
+  before do
+    @valid_attributes = {:name => 'vendorname'}
+  end
+
+  it "should accept valid attributes to create a new object" do
+    Vendor.create! @valid_attributes
+  end
 end

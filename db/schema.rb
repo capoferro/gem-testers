@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101111044225) do
+ActiveRecord::Schema.define(:version => 20101112024413) do
 
   create_table "architectures", :force => true do |t|
     t.string   "name"
@@ -30,23 +30,37 @@ ActiveRecord::Schema.define(:version => 20101111044225) do
     t.datetime "updated_at"
   end
 
+  create_table "rubygems", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "test_results", :force => true do |t|
     t.integer  "architecture_id"
     t.integer  "vendor_id"
     t.integer  "operating_system_id"
     t.integer  "machine_architecture_id"
-    t.string   "name"
-    t.string   "version"
     t.boolean  "result"
     t.text     "test_output"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "version_id"
+    t.integer  "rubygem_id"
   end
 
   create_table "vendors", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "versions", :force => true do |t|
+    t.string   "number"
+    t.integer  "rubygem_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "prerelease"
   end
 
 end

@@ -1,5 +1,13 @@
 require 'spec_helper'
 
 describe MachineArchitecture do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  before do
+    @valid_attributes = {:name => 'machinearchitecturename'}
+  end
+
+  it "should accept valid attributes to create a new object" do
+    MachineArchitecture.create! @valid_attributes
+  end
+
 end
