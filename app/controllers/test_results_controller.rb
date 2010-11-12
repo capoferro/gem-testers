@@ -1,5 +1,13 @@
 class TestResultsController < ApplicationController
 
+  protect_from_forgery :except => :create
+
+  def index
+    @view = params[:view]
+    @view ||= 'rubygems'
+    @objects = @view.classify.constantize.all
+  end
+
   def create
     @result = TestResult.new result_attributes
     render :json => if @result.save
@@ -16,10 +24,12 @@ class TestResultsController < ApplicationController
   def result_attributes
     result = YAML::load params[:results]
     attributes = {}
-    attributes[:architecture]         = Architecture.find_or_create_by_name result[:arch]
-    attributes[:vendor]               = Vendor.find_or_create_by_name result[:vendor]
-    attributes[:machine_architecture] = MachineArchitecture.find_or_create_by_name result[:machine_arch]
-    attributes[:operating_system]     = OperatingSystem.find_or_create_by_name result[:os]
+    attributes[:architecture]         = result[:arch]
+    attributes[:vendor]               = result[:vendor]
+    attributes[:machine_architecture] = result[:machine_arch]
+    attributes[:operating_system]     = result[:os]
+    attributes[:test_output]          = result[:test_output]
+    attributes[:result]               = result[:result]
     
     # TODO: if integrated with gemcutter, the following will be find only, with nil results resulting in some sort of error.
     attributes[:rubygem]              = Rubygem.find_or_create_by_name result[:name]

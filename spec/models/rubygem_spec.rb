@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe Vendor do
+describe Rubygem do
   before do
-    @valid_attributes = {:name => 'vendorname'}
+    @valid_attributes = {:name => 'rubygemname'}
   end
 
   it "should accept valid attributes to create a new object" do
-    Vendor.create! @valid_attributes
+    Rubygem.create! @valid_attributes
   end
 end
