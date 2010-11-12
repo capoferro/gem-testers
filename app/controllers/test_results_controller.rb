@@ -3,9 +3,6 @@ class TestResultsController < ApplicationController
   protect_from_forgery :except => :create
 
   def index
-    @view = params[:view]
-    @view ||= 'rubygems'
-    @objects = @view.classify.constantize.all
   end
 
   def create
