@@ -41,12 +41,18 @@ YAML
 
     result = TestResult.last
 
-    {:architecture => a,
+    output = "/home/josiah/.rvm/rubies/ruby-1.9.2-p0/bin/ruby -I\"lib:lib\" \"/home/josiah/.rvm/rubies/ruby-1.9.2-p0/lib/ruby/1.9.1/rake/rake_test_loader.rb\" \"test/test_checks.rb\" \"test/test_integrate.rb\" \"test/test_inline.rb\" \"test/test_defaults.rb\" \nLoaded suite /home/josiah/.rvm/rubies/ruby-1.9.2-p0/lib/ruby/1.9.1/rake/rake_test_loader\nStarted\n............\n"
+
+    {
+      :architecture => a,
       :vendor => v,
       :operating_system => o,
       :machine_architecture => m,
       :rubygem => r,
-      :version => n}.each do |key, value|
+      :version => n,
+      :result => true,
+      :test_output => output
+    }.each do |key, value|
       result.send(key).should == value
     end
     
