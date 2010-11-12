@@ -1,0 +1,4 @@
+%h1
+  = @rubygem.name
+%table
+  = render :partial => 'shared/version', :collection => @rubygem.versions
