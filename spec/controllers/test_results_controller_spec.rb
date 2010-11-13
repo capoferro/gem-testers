@@ -33,7 +33,7 @@ YAML
     
     post :create, 'results' => @results_yaml
 
-    response.body.should == Response.new(:success).to_json
+    response.body.should == Response.new(rubygem_version_test_result_url(r,n,2)).to_yaml
 
     result = TestResult.last
 

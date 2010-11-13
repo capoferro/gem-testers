@@ -2,15 +2,5 @@
   = link_to @version.rubygem.name, rubygem_path(@version.rubygem)
   #{@version.number}
 %table
-  %tr
-    %td
-      pass/fail
-    %td
-      OS
-    %td
-      Architecture
-    %td
-      Machine Architecture
-    %td
-      Vendor
+  = render :partial => 'shared/test_result_headers'
   = render :partial => 'shared/test_result', :collection => @version.test_results

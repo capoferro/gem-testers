@@ -1,0 +1,7 @@
+%h1
+  = link_to(@result.rubygem.name, rubygem_path(@result.rubygem))
+  = link_to(@result.version.number, rubygem_version_path(@result.rubygem, @result.version))
+
+%table  
+  = render :partial => 'shared/test_result_headers'
+  = render :partial => 'shared/test_result', :object => @result

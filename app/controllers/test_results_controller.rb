@@ -3,17 +3,26 @@ class TestResultsController < ApplicationController
   protect_from_forgery :except => :create
 
   def index
+    redirect_to rubygem_version_path(params[:rubygem_id], params[:version_id])
   end
 
   def create
     @result = TestResult.new result_attributes
-    render :json => if @result.save
-                      Response.new :success
+    
+    @headers['Content-Type'] = 'application/x-yaml'
+    render :text => if @result.save
+                      Response.new rubygem_version_test_result_url(@result.rubygem, @result.version, @result)
                     else
                       @response = Response.new :fail
                       @result.errors.each { |attribute, errors| errors.each { |e| @response.errors.add(attribute, e) } }
                       @response
-                    end
+                    end.to_yaml
+  end
+
+  def show
+    @result = TestResult.where(:rubygem_id => params[:rubygem_id],
+                               :version_id => params[:version_id],
+                               :id => params[:id]).first
   end
   
   private
