@@ -9,7 +9,7 @@ class TestResultsController < ApplicationController
   def create
     @result = TestResult.new result_attributes
     
-    @headers['Content-Type'] = 'application/x-yaml'
+    headers['Content-Type'] = 'application/x-yaml'
     render :text => if @result.save
                       Response.new rubygem_version_test_result_url(@result.rubygem, @result.version, @result)
                     else
