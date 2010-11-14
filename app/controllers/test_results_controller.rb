@@ -35,6 +35,7 @@ class TestResultsController < ApplicationController
     attributes[:machine_architecture] = result[:machine_arch]
     attributes[:operating_system]     = result[:os]
     attributes[:test_output]          = result[:test_output]
+    attributes[:ruby_version]         = result[:ruby_version]
     attributes[:result]               = result[:result]
     
     # TODO: if integrated with gemcutter, the following will be find only, with nil results resulting in some sort of error.

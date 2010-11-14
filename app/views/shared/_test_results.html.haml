@@ -1,0 +1,4 @@
+%table
+  = render :partial => 'shared/test_result_headers'
+  = render :partial => 'shared/test_result', :object => test_results if test_results.is_a? TestResult
+  = render :partial => 'shared/test_result', :collection => test_results if test_results.is_a? Array
