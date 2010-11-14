@@ -11,4 +11,5 @@ describe Version do
   it "should accept valid attributes to create a new object" do
     Version.create! @valid_attributes
   end
+
 end

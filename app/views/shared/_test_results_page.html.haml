@@ -9,17 +9,18 @@
       .os-table-inner-centering-wrapper
         %table.os-table
           %tr
-            %td
+            %td.header
+              ruby -v
             - @operating_systems.each do |os|
               %td.header
                 = os.capitalize
           - @ruby_versions.each do |ruby|
             %tr
               %td.ruby-header
-                = ruby
+                = ruby or 'none given'
               - @operating_systems.each do |os|
-                %td.result-cell
-                  = "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:pass] + @os_matrix[ruby][os][:fail]}"
+                %td.result-cell{:class => pass_fail(ruby, os)}
+                  = pass_fail(ruby, os) == 'unknown' ? ' ' : "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:pass] + @os_matrix[ruby][os][:fail]}"
 
 = render :partial => 'shared/test_results', :locals => {:test_results => @test_results}
 

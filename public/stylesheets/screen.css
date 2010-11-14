@@ -27,10 +27,10 @@ body {
     width: 100%;
 }
 .test-results-table td {
-    padding: 10px
+    padding: 10px;
 }
 
-.test-results-table td.grade {
+td.grade, td.result-cell {
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
     background-repeat: repeat-x;
@@ -41,7 +41,6 @@ body {
     margin-bottom: 16px;
     padding: 10px 0;
     margin: 0 auto;
-    display: block;
     width: 100px;
     text-align: center;
     text-transform: lowercase;
@@ -53,13 +52,19 @@ body {
     color: rgba(0,0,0,.8);
     text-decoration: none;
 }
-.test-results-table td.pass {
+.test-results-table td.grade {
+    display: block;
+}
+td.pass {
     background: #AFE03C url('../images/pass.png')
 }
-.test-results-table td.fail {
+td.fail {
     background: #A00E0E url('../images/fail.png')
 }
-.test-results-table td.fail a {
+td.unknown {
+    
+}
+td.fail a, td.fail {
     color: #E9E9E9
 }
 
@@ -128,16 +133,22 @@ body {
     position: relative;
     left: -50%;
 }
-.os-table-wrapper td.header {
+
+.os-table td {
+    border: 1px solid #B4AC99;
+    text-align: center;
+}
+.os-table td.header {
     font-weight: bold;
     font-size: 1.5em;
-    text-align: left;
+    border: 0px;
 }
-.os-table-ruby-header td {
-    
+.os-table td.ruby-header {
+    border: 0px;
 }
 
 .os-table td.result-cell {
     text-align: center;
     font-weight: bold;
+    font-size: 1.5em;
 }
