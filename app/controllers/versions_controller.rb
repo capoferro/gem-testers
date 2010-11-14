@@ -5,7 +5,10 @@ class VersionsController < ApplicationController
   end
   
   def show
-    @version = Version.where(:id => params[:id], :rubygem_id => params[:rubygem_id]).first
+    @rubygem = Rubygem.where(:id => params[:rubygem_id]).first
+    @version = Version.where(:id => params[:id], :rubygem_id => @rubygem.id).first
+    @test_results = TestResult.where(:rubygem_id => @rubygem.id, :version_id => @version.id).all
+    fill_results_page    
   end
 
 end

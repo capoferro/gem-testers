@@ -5,7 +5,11 @@
     %title
       Gem Testers
     = stylesheet_link_tag :all
+    = javascript_include_tag 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js'
     = javascript_include_tag :defaults
+
     = csrf_meta_tag
   %body
-    = yield
+    #wrapper
+      .info
+        = yield

@@ -1,8 +1,8 @@
 %tr
-  %td
+  %td{:class => "grade #{(test_result.result ? 'pass' : 'fail')}"}
     = link_to (test_result.result ? 'pass' : 'fail'), rubygem_version_test_result_path(test_result.rubygem, test_result.version, test_result)
   %td
-    = test_result.operating_system
+    = test_result.operating_system.capitalize
   %td
     = test_result.machine_architecture
   %td

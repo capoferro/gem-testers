@@ -1,4 +1,1 @@
-%h1
-  = link_to @version.rubygem.name, rubygem_path(@version.rubygem)
-  #{@version.number}
-= render :partial => 'shared/test_results', :locals => {:test_results => @version.test_results}
+= render :partial => 'shared/test_results_page'

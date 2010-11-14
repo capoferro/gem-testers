@@ -1,0 +1,26 @@
+.title
+  %h2
+    = @rubygem.name
+  = select_tag 'version', options_for_select(@rubygem.versions.collect { |v| [v.number, rubygem_version_path(@rubygem, v)] }.unshift(['All versions', rubygem_path(@rubygem)]), :selected => @version.nil? ? rubygem_path(@rubygem) : rubygem_version_path(@rubygem, @version) ), :class => 'version-select'
+
+.os-table-wrapper.border
+  .background
+    %table.os-table
+      %tr
+        %td
+          Ruby Version
+        - @operating_systems.each do |os|
+          %td
+            = os.upcase
+      - @ruby_versions.each do |ruby|
+        %tr
+          %td
+            = ruby
+          - @operating_systems.each do |os|
+            %td
+              = "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:fail]}"
+
+= render :partial => 'shared/test_results', :locals => {:test_results => @test_results}
+
+      
+    
