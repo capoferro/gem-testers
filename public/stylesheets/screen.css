@@ -114,3 +114,30 @@ body {
 .os-table-wrapper {
     margin-top: 20px;
 }
+.os-table-centering-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+.os-table-inner-centering-wrapper {
+    float: left;
+    position: relative;
+    left: 50%;
+}
+.os-table {
+    float: left;
+    position: relative;
+    left: -50%;
+}
+.os-table-wrapper td.header {
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: left;
+}
+.os-table-ruby-header td {
+    
+}
+
+.os-table td.result-cell {
+    text-align: center;
+    font-weight: bold;
+}

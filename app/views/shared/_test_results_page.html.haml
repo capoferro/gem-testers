@@ -5,20 +5,21 @@
 
 .os-table-wrapper.border
   .background
-    %table.os-table
-      %tr
-        %td
-          Ruby Version
-        - @operating_systems.each do |os|
-          %td
-            = os.upcase
-      - @ruby_versions.each do |ruby|
-        %tr
-          %td
-            = ruby
-          - @operating_systems.each do |os|
+    .os-table-centering-wrapper
+      .os-table-inner-centering-wrapper
+        %table.os-table
+          %tr
             %td
-              = "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:fail]}"
+            - @operating_systems.each do |os|
+              %td.header
+                = os.capitalize
+          - @ruby_versions.each do |ruby|
+            %tr
+              %td.ruby-header
+                = ruby
+              - @operating_systems.each do |os|
+                %td.result-cell
+                  = "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:pass] + @os_matrix[ruby][os][:fail]}"
 
 = render :partial => 'shared/test_results', :locals => {:test_results => @test_results}
 
