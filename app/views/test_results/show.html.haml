@@ -1,7 +1,23 @@
+:javascript
+  $(document).ready(function() {
+    $("#test_output").hide();
+
+    $("#show_output").click(function() {
+      $("#test_output").toggle('slide');
+      return true;
+    });
+  });
 %h1
   = link_to(@result.rubygem.name, rubygem_path(@result.rubygem))
   = link_to(@result.version.number, rubygem_version_path(@result.rubygem, @result.version))
 
-%table  
+%table{:style => "width: 100%"}
   = render :partial => 'shared/test_result_headers'
   = render :partial => 'shared/test_result', :object => @result
+
+- if @show_output
+  #show_output{:style => "text-align: center; font-size: 3em; margin-top: 1em; margin-bottom: 1em;"}
+    %span{:style => "padding: 5px; background-color: red; font-weight: bolder; color: white; border: 1px solid black;"} Show Output
+  #test_output{:style => "width: 100%; background-color: white; border: 1px solid black;"}
+    %code
+      %pre{:style => "font-size: 1.5em; overflow: scroll; padding: 1em;"}=@result.test_output
