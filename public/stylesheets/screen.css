@@ -107,7 +107,14 @@ td.fail a, td.fail {
   margin-left: 10px;
 }
 
-.title .version-select {
+.title .version {
+    text-decoration: none;
+}
+.title h2 a {
+    text-decoration: none;
+}
+
+.title .version-select, .title .version {
   display: inline;
   color: #90856C;
   background: #ebe3d1;

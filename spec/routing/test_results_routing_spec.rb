@@ -5,4 +5,5 @@ describe 'test results routing' do
     { :post => '/test_results' }.should route_to(:controller => 'test_results',
                                                  :action => 'create')
   end
+
 end
