@@ -4,3 +4,4 @@
     %table.test-results-table
       = render :partial => 'shared/test_result_headers'
       = render :partial => 'shared/test_result', :collection => test_results
+    = yield
