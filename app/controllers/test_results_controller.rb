@@ -23,6 +23,8 @@ class TestResultsController < ApplicationController
     @result = TestResult.where(:rubygem_id => params[:rubygem_id],
                                :version_id => params[:version_id],
                                :id => params[:id]).first
+
+    @show_output = true
   end
   
   private
