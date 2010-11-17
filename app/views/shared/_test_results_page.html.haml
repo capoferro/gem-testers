@@ -1,3 +1,6 @@
+- content_for :javascripts do
+  :javascript
+    rubygem_id = #{@rubygem.id}
 .title
   %h2
     = @rubygem.name
@@ -19,9 +22,9 @@
               %td.ruby-header
                 = ruby or 'none given'
               - @operating_systems.each do |os|
-                %td.result-cell{:class => pass_fail(ruby, os)}
+                %td.result-cell{:class => pass_fail(ruby, os), :operating_system => os, :ruby_version => ruby}
                   = pass_fail(ruby, os) == 'unknown' ? ' ' : "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:pass] + @os_matrix[ruby][os][:fail]}"
-
+        #platform-data
 = render :partial => 'shared/test_results', :locals => {:test_results => @test_results}
 
       

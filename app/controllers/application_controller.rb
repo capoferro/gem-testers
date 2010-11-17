@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   private
+
+  layout :select_layout
   
   def fill_results_page 
     @os_matrix = populate_os_matrix @test_results
@@ -19,6 +21,12 @@ class ApplicationController < ActionController::Base
       os_matrix[result.ruby_version][result.operating_system][(result.result ? :pass : :fail)] += 1
     end
     os_matrix
+  end
+
+  private
+
+  def select_layout
+    request.xhr? ? nil : 'application'
   end
 
 end

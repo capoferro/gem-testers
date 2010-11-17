@@ -34,6 +34,7 @@ class TestResultsController < ApplicationController
     attributes[:vendor]               = result[:vendor]
     attributes[:machine_architecture] = result[:machine_arch]
     attributes[:operating_system]     = result[:os]
+    attributes[:platform]             = result[:platform]
     attributes[:test_output]          = result[:test_output]
     attributes[:ruby_version]         = result[:ruby_version]
     attributes[:result]               = result[:result]
