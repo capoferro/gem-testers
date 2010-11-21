@@ -20,7 +20,7 @@ body {
     padding: 12px 0 24px 0;
 }
 .test-results-table {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
 }
 .test-results-table td, .os-table td.header {
