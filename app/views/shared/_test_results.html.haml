@@ -3,9 +3,8 @@
     $('.test-results-table').dataTable({ bJQueryUI: true });
   });
 - test_results = test_results.is_a?(Array) ? test_results : [test_results]
-.test-results-table-wrapper.border
-  .background
-    %table.test-results-table
-      = render :partial => 'shared/test_result_headers'
-      = render :partial => 'shared/test_result', :collection => test_results
-    = yield
+.test-results-table-wrapper.margins
+  %table.test-results-table
+    = render :partial => 'shared/test_result_headers'
+    = render :partial => 'shared/test_result', :collection => test_results
+  = yield

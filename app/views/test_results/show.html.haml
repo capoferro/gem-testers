@@ -5,9 +5,8 @@
 
 = render :partial => 'shared/test_results', :object => @result
 
-.border
-  .background.no-padding
-    #output
-      %code
-        %pre
-          = @result.test_output
+.background.no-padding.border
+  #output
+    %code
+      %pre
+        = @result.test_output

@@ -6,80 +6,88 @@ body {
 }
 
 .border {
-    border: 1px solid #b4ac99;
-    margin-left: 36px;
-    margin-right: 36px;
-    margin-bottom: 24px;
-    text-shadow: 1px 1px 1px rgba(255,255,255,0.2);
-    background: #FFF;
-    padding: 3px;
+  border: 1px solid #b4ac99;
+  margin-left: 36px;
+  margin-right: 36px;
+  margin-bottom: 24px;
+  text-shadow: 1px 1px 1px rgba(255,255,255,0.2);
+  background: #FFF;
+  padding: 3px;
 }
+
+.margins {
+  margin-left: 36px;
+  margin-right: 36px;
+  margin-bottom: 24px;
+  padding: 3px;
+}
+
 .background {
-    width: 100%;
-    background: #E7DFCC url('../images/instructions.png') repeat-x;
-    padding: 12px 0 24px 0;
+  width: 100%;
+  background: #E7DFCC url('../images/instructions.png') repeat-x;
+  padding: 12px 0 24px 0;
 }
 .test-results-table {
-    width: 100%;
-    margin: 0 auto;
+  width: 100%;
+  margin: 0 auto;
 }
 .test-results-table td, .os-table td.header {
-    padding: 10px;
-    text-align: center;   
+  padding: 10px;
+  text-align: center;   
 }
 td.header {
-    width: 100px;
+  width: 100px;
 }
 td.grade, td.result-cell {
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
-    background-repeat: repeat-x;
-    color: rgba(0,0,0,.8);
-    border: 1px solid rgba(0,0,0,.2);
-    border-top: none;
-    border-bottom: none;
-    margin-bottom: 16px;
-    padding: 10px 0;
-    margin: 0 auto;
-    width: 100px;
-    text-align: center;
-    text-transform: lowercase;
-    font-variant: small-caps;
-    font-weight: bold;
-    font-size: 27px;
+  -moz-border-radius: 7px;
+  -webkit-border-radius: 7px;
+  background-repeat: repeat-x;
+  color: rgba(0,0,0,.8);
+  border: 1px solid rgba(0,0,0,.2);
+  border-top: none;
+  border-bottom: none;
+  margin-bottom: 16px;
+  padding: 10px 0;
+  margin: 0 auto;
+  width: 100px;
+  text-align: center;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 27px;
 }
 .test-results-table td.grade a {
-    color: rgba(0,0,0,.8);
-    text-decoration: none;
+  color: rgba(0,0,0,.8);
+  text-decoration: none;
 }
 .test-results-table td.grade {
 }
 .pass {
-    background: #AFE03C url('../images/pass.png')
+  background: #AFE03C url('../images/pass.png')
 }
 .fail {
-    background: #A00E0E url('../images/fail.png')
+  background: #A00E0E url('../images/fail.png')
 }
 .unknown {
-    background: #EBE3D1 url('../images/unknown.png')
+  background: #EBE3D1 url('../images/unknown.png')
 }
 .fail a, .fail {
-    color: #E9E9E9
+  color: #E9E9E9
 }
 
 #wrapper {
-    
+
 }
 .info {
-    width: 770px;
-    margin: 0 auto;
-    margin-top: 150px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    background: #ebe3d1;
-    border: 5px solid #cbc2ae;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
+  width: 770px;
+  margin: 0 auto;
+  margin-top: 150px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background: #ebe3d1;
+  border: 5px solid #cbc2ae;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
 }
 
 .title {
@@ -107,10 +115,10 @@ td.grade, td.result-cell {
 }
 
 .title .version {
-    text-decoration: none;
+  text-decoration: none;
 }
 .title h2 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .title .version-select, .title .version {
@@ -123,50 +131,50 @@ td.grade, td.result-cell {
 }
 
 .os-table-wrapper {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 .os-table-centering-wrapper {
-    overflow: hidden;
-    position: relative;
+  overflow: hidden;
+  position: relative;
 }
 .os-table-inner-centering-wrapper {
-    float: left;
-    position: relative;
-    left: 50%;
+  float: left;
+  position: relative;
+  left: 50%;
 }
 .os-table {
-    float: left;
-    position: relative;
-    left: -50%;
+  float: left;
+  position: relative;
+  left: -50%;
 }
 .os-table td {
-    border: 1px solid #B4AC99;
-    text-align: center;
+  border: 1px solid #B4AC99;
+  text-align: center;
 }
 .test-results-table td.header, .os-table td.header {
-    font-weight: bold;
-    font-size: 1.5em;
-    border: 0px;
+  font-weight: bold;
+  font-size: 1.5em;
+  border: 0px;
 }
 .os-table td.ruby-header {
-    border: 0px;
+  border: 0px;
 }
 
 .os-table td.result-cell {
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.5em;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5em;
 }
 
 #output {
-    font-size: 2em;
-    overflow: scroll;
-    color: #B4AC99;
-    background: #011;
+  font-size: 2em;
+  overflow: scroll;
+  color: #B4AC99;
+  background: #011;
 }
 
 
 
 .no-padding {
-    padding: 0px;
+  padding: 0px;
 }
