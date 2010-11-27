@@ -62,10 +62,10 @@ td.grade, td.result-cell {
 }
 .test-results-table td.grade {
 }
-.pass {
+.pass, tr.even td.sorting_1.pass, tr.odd td.sorting_1.pass {
   background: #AFE03C url('../images/pass.png')
 }
-.fail {
+.fail, tr.even td.sorting_1.fail, tr.odd td.sorting_1.fail {
   background: #A00E0E url('../images/fail.png')
 }
 .unknown {

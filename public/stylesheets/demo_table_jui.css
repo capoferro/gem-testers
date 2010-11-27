@@ -31,6 +31,17 @@
  * jQuery UI specific styling
  */
 
+.ui-state-default {
+    background: transparent;
+}
+.ui-widget-header { 
+    border: 1px solid #B5A794;
+    background: url(images/unknown.png) 50% 50% repeat-x;
+    color: #ffffff;
+    font-weight: bold; 
+}
+
+
 .paging_two_button .ui-button {
 	float: left;
 	cursor: pointer;
@@ -222,16 +233,6 @@ table.display td.center {
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables row classes
  */
-table.display tr.odd.gradeA {
-	background-color: #ddffdd;
-}
-
-table.display tr.even.gradeA {
-	background-color: #eeffee;
-}
-
-
-
 
 table.display tr.odd.gradeA {
 	background-color: #ddffdd;
@@ -267,11 +268,11 @@ table.display tr.even.gradeU {
 
 
 tr.odd {
-	background-color: #E2E4FF;
+	background-color: #F6F6E1;
 }
 
 tr.even {
-	background-color: white;
+	background-color: #ffffef;
 }
 
 
@@ -366,7 +367,7 @@ table.display tr.odd.row_selected td {
  */
 /* For the standard odd/even */
 tr.odd td.sorting_1 {
-	background-color: #D3D6FF;
+	background: url(images/texture-mask.png) #F6F6E1;
 }
 
 tr.odd td.sorting_2 {
@@ -378,7 +379,7 @@ tr.odd td.sorting_3 {
 }
 
 tr.even td.sorting_1 {
-	background-color: #EAEBFF;
+	background: url(images/highlight.png) #ffffef;
 }
 
 tr.even td.sorting_2 {
