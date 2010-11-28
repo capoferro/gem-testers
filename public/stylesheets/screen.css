@@ -192,3 +192,8 @@ input#rubygems {
 .no-padding {
   padding: 0px;
 }
+
+.ui-menu-item a {
+    font-size: 4em;
+    color: #a00;
+}
