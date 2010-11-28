@@ -367,7 +367,7 @@ table.display tr.odd.row_selected td {
  */
 /* For the standard odd/even */
 tr.odd td.sorting_1 {
-	background: url(images/texture-mask.png) #F6F6E1;
+	background: url(images/highlight.png) #F6F6E1;
 }
 
 tr.odd td.sorting_2 {

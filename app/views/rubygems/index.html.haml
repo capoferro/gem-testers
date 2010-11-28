@@ -1,4 +1,5 @@
-%h1 
-  Rubygems
-%table
-  = render :partial => 'shared/rubygem', :collection => @rubygems
+- content_for :javascripts do
+  = javascript_include_tag 'gem_search'
+
+#gem-search
+  %input#rubygems

@@ -1,8 +1,18 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  layout :select_layout
+
   private
   
+  def select_layout
+    if request.xhr?
+      nil
+    else
+      'application'
+    end
+  end
+
   def fill_results_page 
     @os_matrix = populate_os_matrix @test_results
     @ruby_versions = @os_matrix.keys
@@ -19,6 +29,14 @@ class ApplicationController < ActionController::Base
       os_matrix[result.ruby_version][result.operating_system][(result.result ? :pass : :fail)] += 1
     end
     os_matrix
+  end
+
+  def get_rubygem id
+    @rubygem = if id.match /\d+/
+                 Rubygem.find(id)
+               else
+                 Rubygem.where(:name => id).last
+               end
   end
 
 end

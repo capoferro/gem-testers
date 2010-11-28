@@ -4,9 +4,9 @@
   = link_to(@result.version.number, rubygem_version_path(@result.rubygem, @result.version), :class => 'version')
 
 = render :partial => 'shared/test_results', :object => @result
-
-.background.no-padding.border
-  #output
-    %code
-      %pre
-        = @result.test_output
+.border.no-padding
+  .background.no-padding
+    #output
+      %code
+        %pre
+          = @result.test_output

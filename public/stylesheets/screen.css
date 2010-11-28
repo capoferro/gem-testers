@@ -71,7 +71,7 @@ td.grade, td.result-cell {
 .unknown {
   background: #EBE3D1 url('../images/unknown.png')
 }
-.fail a, .fail {
+.fail a, .fail, td.fail.grade a, .os-table td.fail.result-cell {
   color: #E9E9E9
 }
 
@@ -173,7 +173,21 @@ td.grade, td.result-cell {
   background: #011;
 }
 
-
+#gem-search {
+    width: 100%;
+    text-align: center;
+}
+input#rubygems {
+    font-size: 5em;
+    text-align: center;
+    background: #EBE3D1;
+    outline: 0px;
+    color: #a00;
+    border: 0px;
+    width: 500px;
+    margin: 0 auto;
+    border-bottom: 3px #CBC2AE solid;
+}
 
 .no-padding {
   padding: 0px;

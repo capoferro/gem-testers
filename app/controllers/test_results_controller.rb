@@ -3,7 +3,7 @@ class TestResultsController < ApplicationController
   protect_from_forgery :except => :create
 
   def index
-    redirect_to rubygem_version_path(params[:rubygem_id], params[:version_id])
+    redirect_to rubygem_version_path(params[:rubygem_id].name, params[:version_id])
   end
 
   def create
@@ -20,7 +20,8 @@ class TestResultsController < ApplicationController
   end
 
   def show
-    @result = TestResult.where(:rubygem_id => params[:rubygem_id],
+    get_rubygem params[:rubygem_id]
+    @result = TestResult.where(:rubygem_id => @rubygem.id,
                                :version_id => params[:version_id],
                                :id => params[:id]).first
 

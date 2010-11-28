@@ -1,5 +1,6 @@
 GemTesters::Application.routes.draw do
-
+  match '/' => 'rubygems#index'
+  
   resources :rubygems do
     resources :versions do
       resources :test_results

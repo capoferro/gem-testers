@@ -1,7 +1,7 @@
 .title
   %h2
     = @rubygem.name
-  = select_tag 'version', options_for_select(@rubygem.versions.collect { |v| [v.number, rubygem_version_path(@rubygem, v)] }.unshift(['All versions', rubygem_path(@rubygem)]), :selected => @version.nil? ? rubygem_path(@rubygem) : rubygem_version_path(@rubygem, @version) ), :class => 'version-select'
+  = select_tag 'version', options_for_select(@rubygem.versions.collect { |v| [v.number, rubygem_version_path(@rubygem.name, v)] }.unshift(['All versions', rubygem_path(@rubygem.name)]), :selected => @version.nil? ? rubygem_path(@rubygem) : rubygem_version_path(@rubygem.name, @version) ), :class => 'version-select'
 .os-table-wrapper.border
   .background
     .os-table-centering-wrapper
