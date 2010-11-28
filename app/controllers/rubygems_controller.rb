@@ -5,13 +5,13 @@ class RubygemsController < ApplicationController
     else
       @rubygems = Rubygem.where(['name LIKE ?', "%#{params[:term]}%"]).all
       gem_names = @rubygems.collect { |gem| gem.name }
-      render :json => gem_names
+      render json: gem_names
     end
   end
 
   def show
-    get_rubygem params[:id]
-    @test_results = TestResult.where(:rubygem_id => @rubygem.id).all
+    @rubygem = Rubygem.where(name: params[:id]).last
+    @test_results = TestResult.where(rubygem_id: @rubygem.id).all
     fill_results_page
   end
 

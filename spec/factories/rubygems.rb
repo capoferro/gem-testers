@@ -1,5 +1,5 @@
 Factory.sequence :rubygem_name do |n|
-  "#{n.ordinalize} rubygem"
+  "ruby#{n.ordinalize}gem"
 end
 
 Factory.define :rubygem do |f|

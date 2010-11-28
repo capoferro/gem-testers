@@ -1,9 +1,9 @@
 
 $(document).ready(function(){
                     $( "#rubygems" ).autocomplete({
-                                                    source: '/rubygems',
+                                                    source: '/gems',
                                                     select: function(event, ui){
-                                                      window.location = '/rubygems/' + ui.item.value;
+                                                      window.location = '/gems/' + ui.item.value;
                                                     }
                                                   });
                     $( "#rubygems").focus();

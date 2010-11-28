@@ -31,12 +31,4 @@ class ApplicationController < ActionController::Base
     os_matrix
   end
 
-  def get_rubygem id
-    @rubygem = if id.match /\d+/
-                 Rubygem.find(id)
-               else
-                 Rubygem.where(:name => id).last
-               end
-  end
-
 end
