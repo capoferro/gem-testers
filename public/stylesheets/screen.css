@@ -6,7 +6,8 @@ body {
 }
 
 #intro {
-    padding: 0 20px
+  padding: 0 20px;
+  font-size: 1.5em;
 }
 
 .border {
@@ -183,6 +184,7 @@ td.grade, td.result-cell {
 }
 #gem-search label {
     color: #340505;
+    font-size: 1.5em;
 }
 input#rubygems {
     font-size: 5em;

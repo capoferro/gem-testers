@@ -4,24 +4,36 @@
   %h2
     What?
   %p
-    This is test output collected from gems people install on their machines. If you write a gem, you can come here to see if your tests pass on other people's machines.
+    This is test output collected from gems people install on their machines.
+    If you write a gem, you can come here to see if your tests pass on other
+    people's machines.
   %h2
     Why?
   %p
-    So gem authors can fix their gems when they break on different environments.
+    So gem authors can fix their gems when they break on different
+    environments.
   %h2
     How?
   %p
-    People who like being useful (like you) install the gem-test rubygems plugin:  gem install gem-test
+    People who like being useful (like you) install the rubygems-test rubygems
+    plugin:  
+    %span{:style => "color: #a00"} gem install rubygems-test
   %h2
     So?
   %p
-    The more data gathered, the better the gems you use will get. Nothing is more frustrating than finding a gem that doesn't quite work right, and nothing is more useful than lots of test data when you're trying to find out what's broken.
+    The more data gathered, the better the gems you use will get. Nothing is
+    more frustrating than finding a gem that doesn't quite work right, and
+    nothing is more useful than lots of test data when you're trying to find
+    out what's broken.
   %p
-    Ultimately, these tests are submitted by gem users. While useful, take them for what they are: user submitted. It's not always the gem writer's fault that something failed. :)
+    Ultimately, these tests are submitted by gem users. While useful, take them
+    for what they are: user submitted. It's not always the gem writer's fault
+    that something failed. :)
 
 #gem-search
-  %input#rubygems
-  %br
-  %label
-    search for a gem!
+  %form{:onsubmit => "window.location = '/gems/' + $('#rubygems', this).val(); return false"}
+    %input#rubygems
+    %br
+    %label
+      search for a gem!
+
