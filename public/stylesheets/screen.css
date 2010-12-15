@@ -5,6 +5,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+#intro {
+    padding: 0 20px
+}
+
 .border {
   border: 1px solid #b4ac99;
   margin-left: 36px;
@@ -176,6 +180,9 @@ td.grade, td.result-cell {
 #gem-search {
     width: 100%;
     text-align: center;
+}
+#gem-search label {
+    color: #340505;
 }
 input#rubygems {
     font-size: 5em;
