@@ -10,14 +10,14 @@
   %h2
     Why?
   %p
-    So gem authors can fix their gems when they break on different
-    environments.
+    So participating gem authors can fix their gems when they break on
+    different environments.
   %h2
     How?
   %p
     People who like being useful (like you) install the rubygems-test rubygems
     plugin:  
-    %span{:style => "color: #a00"} gem install rubygems-test
+    %a{:href => "http://rubygems.org/gems/rubygems-test"} gem install rubygems-test
   %h2
     So?
   %p
@@ -29,6 +29,12 @@
     Ultimately, these tests are submitted by gem users. While useful, take them
     for what they are: user submitted. It's not always the gem writer's fault
     that something failed. :)
+  %h2
+    I'm a gem author. How do I participate?
+  %p
+    Follow the instructions in the 
+    %a{:href => "https://github.com/erikh/rubygems-test/blob/master/README.rdoc"} README
+    for rubygems-test.
 
 #gem-search
   %form{:onsubmit => "window.location = '/gems/' + $('#rubygems', this).val(); return false"}

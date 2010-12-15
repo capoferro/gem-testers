@@ -10,6 +10,15 @@ body {
   font-size: 1.5em;
 }
 
+#intro a, a:visited {
+  color: #a00;
+  text-decoration: underline;
+}
+
+#intro a:hover {
+  text-decoration: none;
+}
+
 .border {
   border: 1px solid #b4ac99;
   margin-left: 36px;
