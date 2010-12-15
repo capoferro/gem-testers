@@ -11,8 +11,13 @@ class RubygemsController < ApplicationController
 
   def show
     @rubygem = Rubygem.where(name: params[:id]).last
-    @test_results = TestResult.where(rubygem_id: @rubygem.id).all
-    fill_results_page
+    if @rubygem
+      @test_results = TestResult.where(rubygem_id: @rubygem.id).all
+      fill_results_page
+    else
+      flash[:notice] = "That gem does not exist"
+      redirect_to :back rescue redirect_to root_path 
+    end
   end
 
 end

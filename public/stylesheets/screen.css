@@ -95,6 +95,12 @@ td.grade, td.result-cell {
   -webkit-border-radius: 10px;
 }
 
+.info .flash {
+  text-align: center;
+  font-size: 2em;
+  color: #a00;
+}
+
 .title {
   margin-left: 36px;
   display: inline-block;
