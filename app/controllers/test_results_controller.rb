@@ -20,7 +20,7 @@ class TestResultsController < ApplicationController
   end
 
   def show
-    get_rubygem params[:rubygem_id]
+    @rubygem = Rubygem.where(:name => params[:rubygem_id]).first
     @result = TestResult.where(:rubygem_id => @rubygem.id,
                                :version_id => params[:version_id],
                                :id => params[:id]).first
