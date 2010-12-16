@@ -20,12 +20,15 @@ class TestResultsController < ApplicationController
   end
 
   def show
-    @rubygem = Rubygem.where(:name => params[:rubygem_id]).first
+    @rubygem = Rubygem.where(:name => params[:rubygem_id]).last || Rubygem.find(params[:rubygem_id])
     @result = TestResult.where(:rubygem_id => @rubygem.id,
-                               :version_id => params[:version_id],
-                               :id => params[:id]).first
+                              :version_id => params[:version_id],
+                              :id => params[:id]).first
 
     @show_output = true
+  rescue
+    flash[:notice] = "We could not locate that Rubygem."
+    redirect_to :back rescue redirect_to root_url
   end
   
   private
