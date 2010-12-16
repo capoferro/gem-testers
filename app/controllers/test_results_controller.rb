@@ -46,8 +46,8 @@ class TestResultsController < ApplicationController
     
     version_details = {
       :rubygem_id => attributes[:rubygem].id,
-      :number     => result[:version].release,
-      :prerelease => result[:version].prerelease?
+      :number     => result[:version][:release],
+      :prerelease => result[:version][:prerelease]
     }
     attributes[:version] = Version.where(version_details).first
     attributes[:version] ||= Version.create(version_details)
