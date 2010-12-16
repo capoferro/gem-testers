@@ -1,6 +1,6 @@
 .title
   %h2
-    = link_to(@result.rubygem.name, rubygem_path(@result.rubygem))
+    = link_to(@result.rubygem.name, rubygem_path(@result.rubygem.name))
   = link_to(@result.version.number, rubygem_version_path(@result.rubygem, @result.version), :class => 'version')
 
 = render :partial => 'shared/test_results', :object => @result

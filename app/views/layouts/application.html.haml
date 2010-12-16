@@ -13,6 +13,8 @@
     = yield :javascripts
     = csrf_meta_tag
   %body
+    #topnav
+      %a{:href => root_path} Gem Testers
     #wrapper
       .info
         .flash=flash[:notice]

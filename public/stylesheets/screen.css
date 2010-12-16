@@ -5,12 +5,27 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+#topnav {
+  margin-top: 25px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+#topnav a, #topnav a:visited, #topnav a:hover {
+  text-decoration: none;
+  font-weight: bolder;
+  font-size: 3em;
+  color: white;
+  text-align: center;
+}
+
 #intro {
   padding: 0 20px;
   font-size: 1.5em;
 }
 
-#intro a, a:visited {
+#intro a, #intro a:visited {
   color: #a00;
   text-decoration: underline;
 }
@@ -95,7 +110,7 @@ td.grade, td.result-cell {
 .info {
   width: 770px;
   margin: 0 auto;
-  margin-top: 150px;
+  margin-top: 100px;
   padding-top: 20px;
   padding-bottom: 20px;
   background: #ebe3d1;
@@ -125,6 +140,7 @@ td.grade, td.result-cell {
 
 .title h2 a {
   color: #a00;
+  text-decoration: none;
 }
 
 .title h3 {
@@ -137,8 +153,9 @@ td.grade, td.result-cell {
 .title .version {
   text-decoration: none;
 }
-.title h2 a {
-  text-decoration: none;
+
+.title a:hover {
+  text-decoration: underline;
 }
 
 .title .version-select, .title .version {
