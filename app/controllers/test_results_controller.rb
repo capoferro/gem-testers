@@ -43,6 +43,7 @@ class TestResultsController < ApplicationController
     attributes[:test_output]          = result[:test_output]
     attributes[:ruby_version]         = result[:ruby_version]
     attributes[:result]               = result[:result]
+    attributes[:platform]             = result[:platform]
     
     # TODO: if integrated with gemcutter, the following will be find only, with nil results resulting in some sort of error.
     attributes[:rubygem]              = Rubygem.find_or_create_by_name result[:name]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101114031341) do
+ActiveRecord::Schema.define(:version => 20101217081912) do
 
   create_table "rubygems", :force => true do |t|
     t.string   "name"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20101114031341) do
     t.string   "machine_architecture"
     t.string   "vendor"
     t.string   "ruby_version"
+    t.string   "platform"
   end
 
   create_table "versions", :force => true do |t|
