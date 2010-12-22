@@ -1,11 +1,11 @@
 class RubygemsController < ApplicationController
   def index
-    unless request.xhr?
-      @rubygems = Rubygem.all
-    else
+    if request.xhr?
       @rubygems = Rubygem.where(['name LIKE ?', "%#{params[:term]}%"]).all
       gem_names = @rubygems.collect { |gem| gem.name }
       render json: gem_names
+    else
+      @latest_results = TestResult.order('created_at DESC').limit(10);
     end
   end
 

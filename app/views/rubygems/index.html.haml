@@ -43,3 +43,16 @@
     %label
       search for a gem!
 
+#latest-results
+  %div
+    %h2 Latest Test Results
+  %table 
+    - @latest_results.each_slice(2) do |left_result, right_result|
+      %tr
+        - [left_result, right_result].each do |result|
+          %td
+            %a{:href => rubygem_version_test_result_url(result.rubygem, result.version, result)}
+              = result.rubygem.name
+              \-
+              = result.version.number
+              = "(#{result.result ? "Pass" : "Fail"}, #{result.created_at.strftime('%m-%d %H:%M:%S')})"
