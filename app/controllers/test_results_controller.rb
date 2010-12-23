@@ -26,8 +26,10 @@ class TestResultsController < ApplicationController
                               :id => params[:id]).first
 
     @show_output = true
+
+    raise unless @rubygem and @result
   rescue
-    flash[:notice] = "We could not locate that Rubygem."
+    flash[:notice] = "We could not locate that Rubygem or Result."
     redirect_to :back rescue redirect_to root_url
   end
   
