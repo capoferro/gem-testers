@@ -1,3 +1,9 @@
+GIT
+  remote: git://github.com/erikh/exception_notification.git
+  revision: a4bd503150642ee8bb5e224a59db101433097233
+  specs:
+    exception_notification (1.0.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -56,7 +62,7 @@ GEM
     gherkin (2.3.2)
       json (~> 1.4.6)
       term-ansicolor (~> 1.0.5)
-    haml (3.0.24)
+    haml (3.0.25)
     highline (1.6.1)
     i18n (0.5.0)
     json (1.4.6)
@@ -100,11 +106,11 @@ GEM
       rspec-core (~> 2.3.0)
       rspec-expectations (~> 2.3.0)
       rspec-mocks (~> 2.3.0)
-    rspec-core (2.3.0)
+    rspec-core (2.3.1)
     rspec-expectations (2.3.0)
       diff-lcs (~> 1.1.2)
     rspec-mocks (2.3.0)
-    rspec-rails (2.3.0)
+    rspec-rails (2.3.1)
       actionpack (~> 3.0)
       activesupport (~> 3.0)
       railties (~> 3.0)
@@ -131,9 +137,10 @@ PLATFORMS
 DEPENDENCIES
   capistrano
   cucumber-rails
+  exception_notification!
   factory_girl_rails
   haml
   pg
-  rails
+  rails (= 3.0.3)
   rspec-rails
   ruby-debug19

@@ -30,5 +30,4 @@ class ApplicationController < ActionController::Base
     end
     os_matrix
   end
-
 end

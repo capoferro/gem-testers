@@ -1,6 +1,7 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require 'exception_notifier'
 
 # If you have a Gemfile, require the gems listed there, including any gems
 # you've limited to :test, :development, or :production.
@@ -22,6 +23,11 @@ module GemTesters
       g.fixture_replacement :factory_girl
       g.template_engine     :haml
     end
+    
+    config.middleware.use ExceptionNotifier,
+      :email_prefix => "[Gem-Testers Exception] ",
+      :sender_address => %{"Support" <support@gem-testers.org>},
+      :exception_recipients => %w{erik@hollensbe.org bluepojo@gmail.com}
   end
 end
 
