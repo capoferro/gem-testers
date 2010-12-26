@@ -49,12 +49,13 @@ class TestResultsController < ApplicationController
     
     # TODO: if integrated with gemcutter, the following will be find only, with nil results resulting in some sort of error.
     attributes[:rubygem]              = Rubygem.find_or_create_by_name result[:name]
-    
+  
     version_details = {
       :rubygem_id => attributes[:rubygem].id,
       :number     => result[:version][:release],
       :prerelease => result[:version][:prerelease]
     }
+
     attributes[:version] = Version.where(version_details).first
     attributes[:version] ||= Version.create(version_details)
     

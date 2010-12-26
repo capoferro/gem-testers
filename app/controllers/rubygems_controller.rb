@@ -10,7 +10,7 @@ class RubygemsController < ApplicationController
   end
 
   def show
-    @rubygem = Rubygem.where(name: params[:id]).last || Rubygem.find(params[:id])
+    @rubygem = Rubygem.where(name: params[:id]).last || (Rubygem.find(params[:id]) rescue nil)
     if @rubygem
       @test_results = TestResult.where(rubygem_id: @rubygem.id).all
       fill_results_page
