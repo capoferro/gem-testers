@@ -10,17 +10,17 @@
           %tr
             %td.header
               ruby -v
-            - @operating_systems.each do |os|
-              %td.header
-                = os.capitalize
-          - @ruby_versions.each do |ruby|
+            - @ruby_versions.each do |ruby|
+              %td.header.column-label
+                = ruby || 'not reported'
+          - @operating_systems.each do |os|
             %tr
-              %td.ruby-header
-                = ruby or 'none given'
-              - @operating_systems.each do |os|
+              %td.ruby-header.row-label
+                = os.capitalize
+              - @ruby_versions.each do |ruby|
                 %td.result-cell{:class => pass_fail(ruby, os)}
                   = pass_fail(ruby, os) == 'unknown' ? ' ' : "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:pass] + @os_matrix[ruby][os][:fail]}"
-
+              
 = render :partial => 'shared/test_results', :locals => {:test_results => @test_results}
 
       
