@@ -6,8 +6,17 @@ class VersionsController < ApplicationController
   
   def show
     @rubygem = Rubygem.where(name: params[:rubygem_id]).first
-    @version = Version.where(number: params[:id], rubygem_id: @rubygem.id).first
-    @test_results = TestResult.where(rubygem_id: @rubygem.id, version_id: @version.id).all
+    if @rubygem
+      @version = Version.where(number: params[:id], rubygem_id: @rubygem.id).first
+      if @version.nil?
+        redirect_to rubygem_path(@rubygem.name) and return
+      else
+        @test_results = TestResult.where(rubygem_id: @rubygem.id, version_id: @version.id).all if @rubygem and @version
+      end
+    else
+      redirect_to rubygems_path and return
+    end
+
     fill_results_page    
   end
 

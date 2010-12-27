@@ -2,7 +2,8 @@ RUBYGEM_NAME_MATCHER = /[A-Za-z0-9\-\_\.]+/
 
 GemTesters::Application.routes.draw do
   root :to => 'rubygems#index'
-  
+  get 'gems/browse' => 'rubygems#browse'
+
   resources :rubygems, :path => 'gems' do
     constraints :id => RUBYGEM_NAME_MATCHER do
       resources :versions, :path => 'v' do
