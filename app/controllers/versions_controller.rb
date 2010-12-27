@@ -9,11 +9,13 @@ class VersionsController < ApplicationController
     if @rubygem
       @version = Version.where(number: params[:id], rubygem_id: @rubygem.id).first
       if @version.nil?
+        flash[:notice] = "That version doesn't seem to exist."
         redirect_to rubygem_path(@rubygem.name) and return
       else
         @test_results = TestResult.where(rubygem_id: @rubygem.id, version_id: @version.id).all if @rubygem and @version
       end
     else
+      flash[:notice] = "Couldn't find that gem!"
       redirect_to rubygems_path and return
     end
 
@@ -21,3 +23,4 @@ class VersionsController < ApplicationController
   end
 
 end
+
