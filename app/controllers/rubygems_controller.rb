@@ -9,10 +9,6 @@ class RubygemsController < ApplicationController
     end
   end
 
-  def browse
-    @rubygems = Rubygem.all
-  end
-  
   def show
     @rubygem = Rubygem.where(name: params[:id]).last || (Rubygem.find(params[:id]) rescue nil)
     if @rubygem

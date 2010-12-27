@@ -14,8 +14,4 @@ describe 'Rubygem routing' do
     end
   end
 
-  it "should route to rubygems#browse" do
-    { get: '/gems/browse' }.should route_to(controller: 'rubygems',
-                                            action: 'browse')
-  end
 end
