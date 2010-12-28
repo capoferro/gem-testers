@@ -1,3 +1,5 @@
+require 'rss_feed'
+
 class RubygemsController < ApplicationController
   def index
     if request.xhr?
@@ -17,6 +19,14 @@ class RubygemsController < ApplicationController
     else
       flash[:notice] = "That gem does not exist"
       redirect_to :back rescue redirect_to root_path 
+    end
+  end
+
+  def feed
+    respond_to do |format|
+      format.xml do
+        render :xml => (generate_feed(Rubygem.where(name: params[:id]).last) rescue '')
+      end
     end
   end
 end

@@ -4,6 +4,8 @@ GemTesters::Application.routes.draw do
   root :to => 'rubygems#index'
 
   resources :rubygems, :path => 'gems' do
+    get '/feed.xml' => 'rubygems#feed', :as => 'feed'
+
     constraints :id => RUBYGEM_NAME_MATCHER do
       resources :versions, :path => 'v' do
         resources :test_results
@@ -11,7 +13,5 @@ GemTesters::Application.routes.draw do
     end
   end
 
-
   post '/test_results' => 'test_results#create'
-
 end

@@ -113,6 +113,8 @@ GEM
       rspec (~> 2.3.0)
     term-ansicolor (1.0.5)
     thor (0.14.6)
+    tinyatom (0.3.3)
+      builder (>= 2.1.2)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
     tzinfo (0.3.23)
@@ -129,3 +131,4 @@ DEPENDENCIES
   pg
   rails (= 3.0.3)
   rspec-rails
+  tinyatom
