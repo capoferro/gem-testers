@@ -25,7 +25,7 @@ class RubygemsController < ApplicationController
   def feed
     respond_to do |format|
       format.xml do
-        render :xml => (generate_feed(Rubygem.where(name: params[:id]).last) rescue '')
+        render :text => generate_feed(Rubygem.where(name: params[:rubygem_id]).last)
       end
     end
   end
