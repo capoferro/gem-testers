@@ -23,10 +23,21 @@ class RubygemsController < ApplicationController
   end
 
   def feed
-    respond_to do |format|
-      format.xml do
-        render :text => generate_feed(Rubygem.where(name: params[:rubygem_id]).last)
+
+    rubygem = Rubygem.where(name: params[:rubygem_id]).last
+
+    unless rubygem
+      rubygem = Rubygem.find(params[:rubygem_id]) rescue nil
+    end
+
+    if rubygem
+      respond_to do |format|
+        format.xml do
+          render :text => generate_feed(rubygem)
+        end
       end
+    else
+      head 403
     end
   end
 end
