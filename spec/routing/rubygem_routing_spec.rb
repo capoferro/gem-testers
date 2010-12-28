@@ -12,6 +12,13 @@ describe 'Rubygem routing' do
                                                      :action => 'show',
                                                      :id => gemname)
     end
+
+    it "should route to rubygems#show.json for #{gemname}" do
+      { :get => "/gems/#{gemname}.json" }.should route_to(:controller => 'rubygems',
+                                                          :action => 'show',
+                                                          :format => 'json',
+                                                          :id => gemname)
+    end
   end
 
 end

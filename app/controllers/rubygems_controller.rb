@@ -18,8 +18,14 @@ class RubygemsController < ApplicationController
       fill_results_page
     else
       flash[:notice] = "That gem does not exist"
-      redirect_to :back rescue redirect_to root_path 
+      redirect_to :back rescue redirect_to root_path and return
     end
+
+    respond_to do |format|
+      format.json { render json: @rubygem.to_json(include: { versions: {include: :test_results} } ) }
+      format.html
+    end
+      
   end
 
   def feed

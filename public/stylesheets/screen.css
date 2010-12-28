@@ -115,6 +115,7 @@ td.grade, td.result-cell {
   padding-bottom: 20px;
   background: #ebe3d1;
   border: 5px solid #cbc2ae;
+  border-radius: 10px;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
 }
@@ -219,9 +220,12 @@ td.grade, td.result-cell {
     font-size: 1.5em;
 }
 input#rubygems {
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
     font-size: 5em;
     text-align: center;
-    background: #EBE3D1;
+    background: url('../images/unknown.png');
     outline: 0px;
     color: #a00;
     border: 0px;
