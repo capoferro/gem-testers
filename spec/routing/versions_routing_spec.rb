@@ -9,6 +9,14 @@ describe 'Version routing' do
                                                                rubygem_id: 'somegem',
                                                                id: version)
     end
+
+    # it "should route to versions#show.json with #{version}" do
+    #   { get: "/gems/somegem/v/#{version}.json" }.should route_to(controller: 'versions',
+    #                                                         action: 'show',
+    #                                                         format: 'json',
+    #                                                         rubygem_id: 'somegem',
+    #                                                         id: version)
+    # end
   end
   
 end

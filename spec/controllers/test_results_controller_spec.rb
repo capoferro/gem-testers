@@ -49,4 +49,25 @@ YAML
     
   end
 
+  describe '#show' do
+    it 'should respond to json' do
+      r = Factory.create :rubygem
+      v = Factory.create :version, rubygem: r
+      t = Factory.create :test_result, rubygem: r, version: v
+
+      get :show, rubygem_id: r.name, version_id: v.number, id: t.id, format: 'json'
+
+      response.body.should == t.to_json
+    end
+    
+    it 'should respond to json when the test result doesn\'t exist' do
+      r = Factory.create :rubygem
+      v = Factory.create :version, rubygem: r
+
+      get :show, rubygem_id: r.name, version_id: v.number, id: '123', format: 'json'
+
+      response.body.should == '{}'
+    end
+  end
+  
 end

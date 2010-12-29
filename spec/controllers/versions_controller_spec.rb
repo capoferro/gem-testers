@@ -26,4 +26,19 @@ describe VersionsController do
     response.should redirect_to rubygem_path('gem')
   end
 
+  it 'should respond to json format' do
+    r = Factory.create :rubygem
+    v = Factory.create :version, rubygem: r
+    10.times { Factory.create :test_result, version: v, rubygem: r }
+
+    get :show, rubygem_id: r.name, id: v.number + '.json'
+    response.body.should == v.to_json(include: :test_results)
+  end
+
+  it 'should be successful when getting json and version is not found' do
+    r = Factory.create :rubygem
+    get :show, rubygem_id: r.name, id: '1.0.0.random.json'
+    response.should be_successful
+    response.body.should == '{}'
+  end 
 end
