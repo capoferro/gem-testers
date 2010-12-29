@@ -11,7 +11,7 @@ describe RubygemsController do
   it 'should route to the root url when showing a gem that does not exist' do
     get :show, id: 'foo'
     response.should be_redirect
-    flash[:notice].should == "That gem does not exist"
+    flash[:notice].should == "Couldn't find that gem!"
     response.should redirect_to root_path 
   end
 
@@ -20,9 +20,15 @@ describe RubygemsController do
     v = Factory.create :version, number: '1.0.0', rubygem_id: gem.id
     10.times { Factory.create :test_result, rubygem_id: gem.id, version_id: v.id }
       
-    get :show, id: 'foo', format: 'json'
+    get :show, id: gem.name, format: 'json'
     response.should be_success
     response.body.should == gem.to_json(include: { versions: {include: :test_results} } )
 
+  end
+
+  it 'should be successful when the rubygem is not found' do
+    get :show, id: 'somegem', format: 'json'
+    response.should be_success
+    response.body.should == '{}'
   end
 end
