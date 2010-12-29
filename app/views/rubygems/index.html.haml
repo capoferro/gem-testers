@@ -18,7 +18,7 @@
       %tr
         - [left_result, right_result].each do |result|
           %td
-            %a{:href => rubygem_version_test_result_url(result.rubygem, result.version, result)}
+            %a{:href => rubygem_version_test_result_url(result.rubygem.name, result.version.number, result)}
               = result.rubygem.name
               \-
               = result.version.number
