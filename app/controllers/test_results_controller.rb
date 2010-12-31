@@ -20,13 +20,8 @@ class TestResultsController < ApplicationController
   end
 
   def show
-    @rubygem = Rubygem.where(name: params[:rubygem_id]).last
-    @version = Version.where(number: params[:version_id], rubygem_id: @rubygem.id).last unless @rubygem.nil?
-    @result = TestResult.where(rubygem_id: @rubygem.id,
-                               version_id: @version.id,
-                               id: params[:id]).first unless @version.nil?
+    @result = TestResult.where(id: params[:id]).first
 
-    @show_output = true
     if @result.nil? and params[:format].nil?
       flash[:notice] = "We could not locate that test result."
       (redirect_to :back rescue redirect_to root_url) and return
