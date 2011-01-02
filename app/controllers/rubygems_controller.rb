@@ -12,13 +12,36 @@ class RubygemsController < ApplicationController
   end
 
   def show
-    @rubygem = Rubygem.where(name: params[:id]).last || (Rubygem.find(params[:id]) rescue nil)
+    id = params[:id] || params[:rubygem_id]
+    @rubygem = Rubygem.last(conditions: {name: id}) || Rubygem.last(conditions: {id: id})
+
     
     respond_to do |format|
-      format.json { render json: (@rubygem.nil? ? {} : @rubygem.to_json(include: { versions: {include: :test_results} } )) }
+      format.json do
+        render json: if @rubygem                       
+                       # case params[:filter]
+                       # when 'pass'
+                       #   @rubygem.to_json(include: { versions: {include: {test_results: {conditions: {result: true} }}} })
+                       # when 'fail'
+                       #   @rubygem.to_json(include: { versions: {include: {test_results: {conditions: {result: false} }}} })
+                       # else
+                         @rubygem.to_json(include: { versions: {include: :test_results} })
+                       # end
+                     else
+                       {}
+                     end
+      end
       format.html do
         if @rubygem
-          @test_results = TestResult.where(rubygem_id: @rubygem.id).all
+          results_query = TestResult.where(rubygem_id: @rubygem.id)
+          @test_results = case params[:filter]
+                          when 'pass'
+                            results_query.where(result: true).all
+                          when 'fail'
+                            results_query.where(result: false).all
+                          else
+                            results_query.all
+                          end
           fill_results_page
         elsif !params[:format]
           flash[:notice] = "Couldn't find that gem!"
