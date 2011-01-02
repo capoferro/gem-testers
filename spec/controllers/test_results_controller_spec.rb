@@ -69,5 +69,18 @@ YAML
       response.body.should == '{}'
     end
   end
-  
+
+  describe '#index' do
+    it 'should redirect' do
+      gem = Factory.create :rubygem
+      v = Factory.create :version, rubygem_id: gem.id
+      get :index, rubygem_id: gem.name, version_id: v.number
+      response.should be_redirect
+    end
+
+    it 'should not die if the gem doesn\'t exist' do
+      get :index, rubygem_id: '1', version_id: '1'
+      response.should be_redirect
+    end
+  end
 end
