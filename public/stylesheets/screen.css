@@ -261,3 +261,26 @@ input#rubygems {
 #latest-results h2 { text-align: center; }
 #latest-results table { width: 80%; margin-left: auto; margin-right: auto; }
 #latest-results td { font-size: 1.2em; padding: 5px; }
+
+#tabnav {
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%; 
+  padding: 10px;
+  background-color: #CBC2AE;
+  height: 2em;
+  border: 1px solid black;
+  margin-bottom: 1em;
+}
+
+.navtab { 
+  float: left;
+  width: 20%;
+}
+
+.navtab a.heading {
+  font-size: 2em;
+  color: black;
+  text-decoration: none;
+  font-weight: bolder;
+}
