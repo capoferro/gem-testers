@@ -27,12 +27,10 @@
   }); 
 #tabnav
   .navtab
-    %a.heading{:href => "javascript:void(0)"} Something
-    %div{:style => "display: none"} Some stuff
-  .navtab
     %a.heading{:href => "javascript:void(0)"} Filters
     %div{:style => "display: none"}
       %form
-        %select{:name => "passfail"}
+        %select{:name => "passfail", :onchange => "location.href = '?filter=' + $(this).val();"}
+          %option{:value => ""} &nbsp;
           %option{:value => "pass"} Pass
           %option{:value => "fail"} Fail
