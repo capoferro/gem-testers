@@ -11,7 +11,7 @@ class TestResultsController < ApplicationController
     
     headers['Content-Type'] = 'application/x-yaml'
     render :text => if @result.save
-                      Response.new rubygem_version_test_result_url(@result.rubygem, @result.version, @result)
+                      Response.new rubygem_version_test_result_url(@result.rubygem.name, @result.version.number, @result)
                     else
                       @response = Response.new :fail
                       @result.errors.each { |attribute, errors| errors.each { |e| @response.errors.add(attribute, e) } }
