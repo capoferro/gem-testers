@@ -19,26 +19,6 @@ describe 'Rubygem routing' do
                                                           :format => 'json',
                                                           :id => gemname)
     end
-
-    it "should route to rubygems#show with a pass filter for #{gemname}" do
-      { get: "/gems/#{gemname}/pass" }.should route_to(controller: 'rubygems',
-                                                       action: 'show',
-                                                       rubygem_id: gemname,
-                                                       filter: 'pass')
-    end
-
-    it "should route to rubygems#show with a fail filter for #{gemname}" do
-      { get: "/gems/#{gemname}/fail" }.should route_to(controller: 'rubygems',
-                                                       action: 'show',
-                                                       rubygem_id: gemname,
-                                                       filter: 'fail')
-    end
-    
-    it "should route to the rss feed for #{gemname}" do
-      { get: "/gems/#{gemname}/feed.xml" }.should route_to(controller: 'rubygems',
-                                                           action: 'feed',
-                                                           rubygem_id: gemname)
-    end
   end
 
 end
