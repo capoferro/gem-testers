@@ -31,4 +31,40 @@ describe RubygemsController do
     response.should be_success
     response.body.should == '{}'
   end
+
+  it 'should allow results to be filtered for passing results' do
+    gem = Factory.create :rubygem, name: 'somegem'
+    v = Factory.create :version, number: '1.0.0', rubygem_id: gem.id
+    3.times { Factory.create :test_result, rubygem_id: gem.id, version_id: v.id, result: false }
+    2.times { Factory.create :test_result, rubygem_id: gem.id, version_id: v.id, result: true }
+    get :show, rubygem_id: 'somegem', filter: 'pass'
+    assigns(:test_results).length.should == 2
+  end
+  
+  it 'should allow results to be filtered for failing results' do
+    gem = Factory.create :rubygem, name: 'somegem'
+    v = Factory.create :version, number: '1.0.0', rubygem_id: gem.id
+    3.times { Factory.create :test_result, rubygem_id: gem.id, version_id: v.id, result: false }
+    2.times { Factory.create :test_result, rubygem_id: gem.id, version_id: v.id, result: true }
+    get :show, rubygem_id: 'somegem', filter: 'fail'
+    assigns(:test_results).length.should == 3
+  end
+
+  it 'should allow results to be filtered for passing results as json' do
+    gem = Factory.create :rubygem, name: 'somegem'
+    v = Factory.create :version, number: '1.0.0', rubygem_id: gem.id
+    3.times { Factory.create :test_result, rubygem_id: gem.id, version_id: v.id, result: false }
+    #2.times { Factory.create :test_result, rubygem_id: gem.id, version_id: v.id, result: true }
+    get :show, rubygem_id: 'somegem', filter: 'pass', format: 'json'
+    response.body.should == 'something'
+  end
+  
+  it 'should allow results to be filtered for failing results as json' do
+    gem = Factory.create :rubygem, name: 'somegem'
+    v = Factory.create :version, number: '1.0.0', rubygem_id: gem.id
+   # 3.times { Factory.create :test_result, rubygem_id: gem.id, version_id: v.id, result: false }
+    2.times { Factory.create :test_result, rubygem_id: gem.id, version_id: v.id, result: true }
+    get :show, rubygem_id: 'somegem', filter: 'fail', format: 'json'
+    response.body.should == 'something'
+  end
 end
