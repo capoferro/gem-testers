@@ -17,18 +17,18 @@ class TestResultsController < ApplicationController
     @response = Response.new
 
     @result_details = YAML::load params[:results]
-    bubble_errors_from { @gem = Rubygem.find_or_create_by_name @result_details[:name] } if @result_details
+    bubble_errors_from(@gem = Rubygem.find_or_create_by_name(@result_details[:name])) if @result_details
 
     if @result_details[:version]
-      bubble_errors_from { @v = Version.find_or_create_by_number @result_details[:version][:release], rubygem: @gem, prerelease: @result_details[:version][:prerelease] } if @gem and @gem.valid?
+      bubble_errors_from(@v = Version.find_or_create_by_number(@result_details[:version][:release], rubygem: @gem, prerelease: @result_details[:version][:prerelease])) if @gem and @gem.valid?
     else
       @response.errors.add :'Version', 'can\'t be blank'
     end
     
-    bubble_errors_from { @result = TestResult.create result_attributes_from(@result_details) } if @gem and @gem.valid? and @v and @v.valid?
+    bubble_errors_from(@result = TestResult.create(result_attributes_from(@result_details))) if @gem and @gem.valid? and @v and @v.valid?
     
     headers['Content-Type'] = 'application/x-yaml'
-
+    
     @response.success = (@response.errors.count == 0)
     @response.data << rubygem_version_test_result_url(@gem.name, @v.number, @result) if @response.success
 
@@ -51,8 +51,7 @@ class TestResultsController < ApplicationController
   
   private
 
-  def bubble_errors_from
-    object = yield
+  def bubble_errors_from object
     @response.merge_errors object.errors, object_name: object.class.name
   end
   
