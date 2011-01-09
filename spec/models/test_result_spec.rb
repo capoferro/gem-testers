@@ -27,11 +27,9 @@ describe TestResult do
     t.save.should be_true
   end
 
-  it "should supply abbreviated test results" do
+  it "should supply test results without test output" do
     t = Factory.build :test_result
-    attrs = t.attributes
-    attrs.delete :test_output
-    t.simple_attributes.should == attrs
+    t.simple_attributes['test_output'].should be_nil
   end
 
 end

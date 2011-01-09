@@ -8,7 +8,7 @@ class TestResult < ActiveRecord::Base
 
   def simple_attributes
     attrs = self.attributes.clone
-    attrs.delete :test_results
+    attrs.delete 'test_output'
     attrs
   end
 end
