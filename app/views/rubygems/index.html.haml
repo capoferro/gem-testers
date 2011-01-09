@@ -17,6 +17,7 @@
     - @latest_results.each_slice(2) do |left_result, right_result|
       %tr
         - [left_result, right_result].each do |result|
+          - next unless result
           %td
             %a{:href => rubygem_version_test_result_url(result.rubygem.name, result.version.number, result)}
               = result.rubygem.name
