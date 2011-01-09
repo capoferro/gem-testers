@@ -134,7 +134,7 @@ YAML
 
 YAML
         expected_response = Response.new
-        expected_response.errors.add :'Result of the testresult',  'can\'t be blank'
+        expected_response.errors.add :'Result of the testresult',  'must be true or false'
         expected_response.success = false
         response.body.should == expected_response.to_yaml
       end

@@ -22,4 +22,16 @@ describe TestResult do
     t.save.should be_false
   end
 
+  it "should allow false test results" do
+    t = Factory.build :test_result, result: false
+    t.save.should be_true
+  end
+
+  it "should supply abbreviated test results" do
+    t = Factory.build :test_result
+    attrs = t.attributes
+    attrs.delete :test_output
+    t.simple_attributes.should == attrs
+  end
+
 end

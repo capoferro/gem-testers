@@ -2,12 +2,22 @@ require 'rss_feed'
 
 class RubygemsController < ApplicationController
   def index
-    if request.xhr?
+    if request.xhr? # autocomplete for the homepage
       @rubygems = Rubygem.where(['name LIKE ?', "%#{params[:term]}%"]).all
       gem_names = @rubygems.collect { |gem| gem.name }
       render json: gem_names
     else
-      @latest_results = TestResult.order('created_at DESC').limit(10);
+      respond_to do |format|
+        format.html { @latest_results = TestResult.order('created_at DESC').limit(10) }
+        format.json do
+          q = TestResult.where('created_at > ?', 1.hour.ago)
+          render json: {
+            pass_count: q.where(result: true).count,
+            fail_count: q.where(result: false).count,
+            test_results: q.order('created_at DESC').all.collect(&:simple_attributes)
+          }
+        end
+      end
     end
   end
 
