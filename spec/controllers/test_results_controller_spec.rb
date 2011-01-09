@@ -66,7 +66,7 @@ YAML
 
     describe 'with invalid results' do
 
-      it 'should report errors from creating the gem and version' do
+      it 'should report errors from creating the gem' do
         post :create, results: <<-YAML
 --- 
 :arch: x86_64-linux
@@ -87,6 +87,54 @@ YAML
 YAML
         expected_response = Response.new
         expected_response.errors.add :'Name of the rubygem', 'is invalid'
+        expected_response.success = false
+        response.body.should == expected_response.to_yaml
+      end
+
+       it 'should report errors from creating the version' do
+        post :create, results: <<-YAML
+--- 
+:arch: x86_64-linux
+:vendor: unknown
+:os: linux
+:machine_arch: x86_64
+:name: methlab
+:version: 
+:result: true
+:test_output: |
+  /home/josiah/.rvm/rubies/ruby-1.9.2-p0/bin/ruby -I"lib:lib" "/home/josiah/.rvm/rubies/ruby-1.9.2-p0/lib/ruby/1.9.1/rake/rake_test_loader.rb" "test/test_checks.rb" "test/test_integrate.rb" "test/test_inline.rb" "test/test_defaults.rb" 
+  Loaded suite /home/josiah/.rvm/rubies/ruby-1.9.2-p0/lib/ruby/1.9.1/rake/rake_test_loader
+  Started
+  ............
+
+YAML
+        expected_response = Response.new
+        expected_response.errors.add :'Version', 'can\'t be blank'
+        expected_response.success = false
+        response.body.should == expected_response.to_yaml
+      end
+      
+      it 'should report errors from creating the test result' do
+        post :create, results: <<-YAML
+--- 
+:arch: x86_64-linux
+:vendor: unknown
+:os: linux
+:machine_arch: x86_64
+:name: methlab
+:version: 
+  :prerelease: false
+  :release: 0.1.0
+:result: 
+:test_output: |
+  /home/josiah/.rvm/rubies/ruby-1.9.2-p0/bin/ruby -I"lib:lib" "/home/josiah/.rvm/rubies/ruby-1.9.2-p0/lib/ruby/1.9.1/rake/rake_test_loader.rb" "test/test_checks.rb" "test/test_integrate.rb" "test/test_inline.rb" "test/test_defaults.rb" 
+  Loaded suite /home/josiah/.rvm/rubies/ruby-1.9.2-p0/lib/ruby/1.9.1/rake/rake_test_loader
+  Started
+  ............
+
+YAML
+        expected_response = Response.new
+        expected_response.errors.add :'Result of the testresult',  'can\'t be blank'
         expected_response.success = false
         response.body.should == expected_response.to_yaml
       end
