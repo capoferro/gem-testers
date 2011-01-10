@@ -1,5 +1,4 @@
 $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
-
 require "rvm/capistrano"
 
 default_run_options[:pty] = true
@@ -38,7 +37,7 @@ namespace :bundler do
  
   task :bundle_new_release, :roles => :app do
     bundler.create_symlink
-    run "cd #{release_path} && #{try_sudo} bundle install --without test"
+    run "cd #{release_path} && bundle install --path '#{File.join(shared_path, 'bundle')}'"
   end
 end
  
