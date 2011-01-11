@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe VersionsController do
   
-  it 'should #show successfully' do
+  it 'should redirect #show with no test results' do
     r = Factory.create :rubygem
     v = Factory.create :version, rubygem_id: r.id
     get :show, rubygem_id: r.name, id: v.number
-    response.should be_successful
+    response.should be_redirect 
   end
 
   it 'should redirect to rubygems#index when rubygem not found' do
@@ -26,19 +26,28 @@ describe VersionsController do
     response.should redirect_to rubygem_path('gem')
   end
 
-  it 'should respond to json format' do
-    r = Factory.create :rubygem
-    v = Factory.create :version, rubygem: r
-    10.times { Factory.create :test_result, version: v, rubygem: r }
-
-    get :show, rubygem_id: r.name, id: v.number + '.json'
-    response.body.should == v.to_json(include: :test_results)
-  end
-
   it 'should be successful when getting json and version is not found' do
     r = Factory.create :rubygem
     get :show, rubygem_id: r.name, id: '1.0.0.random.json'
     response.should be_successful
     response.body.should == '{}'
   end 
+
+  describe "When there are test results" do
+    before(:each) do
+      @r = Factory.create :rubygem
+      @v = Factory.create :version, rubygem: @r
+      10.times { Factory.create :test_result, version: @v, rubygem: @r }
+    end
+
+    it 'should respond to json format' do
+      get :show, rubygem_id: @r.name, id: @v.number + '.json'
+      response.body.should == @v.to_json(include: :test_results)
+    end
+
+    it 'should #show successfully' do
+      get :show, rubygem_id: @r.name, id: @v.number
+      response.should be_successful
+    end
+  end
 end

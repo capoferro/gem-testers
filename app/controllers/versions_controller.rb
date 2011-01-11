@@ -10,9 +10,10 @@ class VersionsController < ApplicationController
     # the string and set a flag to render the proper format.
     respond_to_json = !!(params[:id] =~ /(.+)\.json$/)
     version_number = $1 || params[:id]
+
     @rubygem = Rubygem.where(name: params[:rubygem_id]).first
-    
     @version = Version.where(number: version_number, rubygem_id: @rubygem.id).first if @rubygem
+    @platform = params[:platform] unless params[:platform].blank?
     
     if respond_to_json
       render json: @version, include: :test_results if not @version.nil?
@@ -27,10 +28,24 @@ class VersionsController < ApplicationController
         flash[:notice] = "That version doesn't seem to exist."
         redirect_to rubygem_path(@rubygem.name) and return
       else
-        @test_results = TestResult.where(rubygem_id: @rubygem.id, version_id: @version.id).all if @rubygem and @version
+        if @rubygem and @version
+          if @platform
+            @test_results = TestResult.where(rubygem_id: @rubygem.id, version_id: @version.id, platform: @platform).all
+            @all_test_results = TestResult.where(rubygem_id: @rubygem.id, version_id: @version.id).all
+          else
+            @test_results = @all_test_results = TestResult.where(rubygem_id: @rubygem.id, version_id: @version.id).all
+          end
+        else
+          @test_results = @all_test_results = []
+        end
       end
-      
-      fill_results_page
+     
+      if @test_results.empty?
+        flash[:notice] = "No results for that query."
+        redirect_to rubygem_path(@rubygem.name) and return
+      else
+        fill_results_page
+      end
     end
   end
 

@@ -23,12 +23,22 @@ class RubygemsController < ApplicationController
 
   def show
     @rubygem = Rubygem.where(name: params[:id]).last || (Rubygem.find(params[:id]) rescue nil)
-    
+
+    @platform = params[:platform] unless params[:platform].blank?
+
     respond_to do |format|
       format.json { render json: (@rubygem.nil? ? {} : @rubygem.to_json(include: { versions: {include: :test_results} } )) }
       format.html do
         if @rubygem
-          @test_results = TestResult.where(rubygem_id: @rubygem.id).all
+
+          if @platform
+            @test_results = TestResult.where(rubygem_id: @rubygem.id).where(platform: @platform).all
+            @all_test_results = TestResult.where(rubygem_id: @rubygem.id)
+          else
+            @test_results = TestResult.where(rubygem_id: @rubygem.id).all
+            @all_test_results = @test_results
+          end
+
           fill_results_page
         elsif !params[:format]
           flash[:notice] = "Couldn't find that gem!"
