@@ -30,7 +30,6 @@ class RubygemsController < ApplicationController
       format.json { render json: (@rubygem.nil? ? {} : @rubygem.to_json(include: { versions: {include: :test_results} } )) }
       format.html do
         if @rubygem
-
           if @platform
             @test_results = TestResult.where(rubygem_id: @rubygem.id).where(platform: @platform).all
             @all_test_results = TestResult.where(rubygem_id: @rubygem.id)
@@ -39,14 +38,23 @@ class RubygemsController < ApplicationController
             @all_test_results = @test_results
           end
 
-          fill_results_page
-        elsif !params[:format]
+          unless @test_results.empty?
+            fill_results_page
+          else
+            if @platform
+              flash[:notice] = "No results for that gem and platform"
+              redirect_to rubygem_path(@rubygem) and return
+            else
+              flash[:notice] = "No results for that gem"
+              redirect_to root_path and return
+            end
+          end
+        else
           flash[:notice] = "Couldn't find that gem!"
           redirect_to :back rescue redirect_to root_path and return
         end
       end
     end
-      
   end
 
   def feed

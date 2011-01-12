@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe VersionsController do
-  
   it 'should redirect #show with no test results' do
     r = Factory.create :rubygem
     v = Factory.create :version, rubygem_id: r.id
     get :show, rubygem_id: r.name, id: v.number
+
     response.should be_redirect 
   end
 
@@ -48,6 +48,37 @@ describe VersionsController do
     it 'should #show successfully' do
       get :show, rubygem_id: @r.name, id: @v.number
       response.should be_successful
+    end
+  end
+
+  describe "When there is a platform parameter" do
+    render_views
+  
+    before(:each) do
+      @r = Factory.create :rubygem
+      @v = Factory.create :version, rubygem: @r
+      @v2 = Factory.create :version, rubygem: @r
+      10.times { Factory.create :test_result, version: @v, rubygem: @r, platform: "ruby" }
+      10.times { Factory.create :test_result, version: @v, rubygem: @r, platform: "jruby" }
+      10.times { Factory.create :test_result, version: @v2, rubygem: @r, platform: "jruby" }
+    end
+
+    it "should #show if there are tests for that platform" do
+      get :show, rubygem_id: @r.name, id: @v.number, platform: "ruby"
+      response.should be_successful
+      response.body.should match(%r!<option[^>]*>jruby</option>!)
+      response.body.should match(%r!<option[^>]*>ruby</option>!)
+    end
+
+    it "should not omit valid platforms if one is selected" do
+      get :show, rubygem_id: @r.name, id: @v.number, platform: "ruby"
+      response.should be_successful
+      response.body.should match(%r!<option[^>]*>jruby</option>!)
+    end
+
+    it "should redirect if there are no tests for that platform" do
+      get :show, rubygem_id: @r.name, id: @v.number, platform: "rbx"
+      response.should be_redirect
     end
   end
 end
