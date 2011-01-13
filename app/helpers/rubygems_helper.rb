@@ -47,7 +47,7 @@ module RubygemsHelper
       end
     else
       if version
-        rubygem_version_path(rubygem.name, version.number)
+        rubygem_version_path(rubygem.name, version.number, :platform => platform)
       else
         rubygem_path(rubygem.name, :platform => platform)
       end

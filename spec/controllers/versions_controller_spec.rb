@@ -80,5 +80,11 @@ describe VersionsController do
       get :show, rubygem_id: @r.name, id: @v.number, platform: "rbx"
       response.should be_redirect
     end
+
+    it "should have the right platform selected when there is only one platform" do
+      get :show, rubygem_id: @r.name, id: @v2.number, platform: "jruby"
+      response.should be_success
+      response.body.should match(%r!<option value="[^"]+" selected="selected">jruby</option>!i)
+    end
   end
 end

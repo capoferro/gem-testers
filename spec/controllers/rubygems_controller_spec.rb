@@ -70,6 +70,10 @@ describe RubygemsController do
         Factory.create :test_result, version: v, rubygem: @r, platform: "ruby" 
         Factory.create :test_result, version: v, rubygem: @r, platform: "jruby" 
       end
+      
+      @r2 = Factory.create :rubygem
+      @v2 = Factory.create :version, rubygem: @r2
+      Factory.create :test_result, version: @v2, rubygem: @r2, platform: "jruby" 
     end
 
     it "should #show if there are tests for that platform" do
@@ -86,6 +90,12 @@ describe RubygemsController do
     it "should redirect if there are no tests for that platform" do
       get :show, id: @r.name, platform: "rbx"
       response.should be_redirect
+    end
+    
+    it "should have the right platform selected when there is only one platform" do
+      get :show, id: @r.name, platform: "jruby"
+      response.should be_success
+      response.body.should match(%r!<option value="[^"]+" selected="selected">jruby</option>!i)
     end
   end
 end
