@@ -9,23 +9,13 @@ class RubygemsController < ApplicationController
     else
       respond_to do |format|
         format.html { @latest_results = TestResult.order('created_at DESC').limit(10) }
-        format.json do
-          q = TestResult.where('created_at > ?', 1.hour.ago)
-          render json: {
-            pass_count: q.where(result: true).count,
-            fail_count: q.where(result: false).count,
-            test_results: q.order('created_at DESC').all.collect(&:simple_attributes)
-          }
-        end
       end
     end
   end
 
   def show
     @rubygem = Rubygem.where(name: params[:id]).last || (Rubygem.find(params[:id]) rescue nil)
-
     @platform = params[:platform] unless params[:platform].blank?
-
     respond_to do |format|
       format.json { render json: (@rubygem.nil? ? {} : @rubygem.to_json(include: { versions: {include: :test_results} } )) }
       format.html do

@@ -56,8 +56,7 @@ describe RubygemsController do
     Factory.create :test_result, rubygem_id: gem2.id, version_id: v2.id
 
     get :index, format: 'json'
-    
-    response.body.should == {pass_count: 2, fail_count: 1, test_results: TestResult.order('created_at DESC').all.collect(&:simple_attributes)}.to_json
+    response.body.should == {pass_count: 2, fail_count: 1, test_results: TestResult.order('created_at DESC').all.collect(&:short_attributes)}.to_json
   end
 
   describe "When there is a platform parameter" do

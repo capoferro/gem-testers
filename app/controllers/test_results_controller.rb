@@ -3,13 +3,27 @@ class TestResultsController < ApplicationController
   protect_from_forgery :except => :create
 
   def index
-    @rubygem = Rubygem.first(conditions: {name: params[:rubygem_id]})
-    @version = Version.first(conditions: {rubygem_id: @rubygem.id, number: params[:version_id]}) if @rubygem
-    if @version
-      redirect_to rubygem_version_path(@rubygem.name, @version.number)
-    else
-      flash[:notice] = "Can't find any results with for '#{params[:rubygem_id]}' v #{params[:version_id]}"
-      redirect_to rubygems_path
+    if params[:rubygem_id]
+      @rubygem = Rubygem.first(conditions: {name: params[:rubygem_id]})
+      @version = Version.first(conditions: {rubygem_id: @rubygem.id, number: params[:version_id]}) if @rubygem
+      if @version
+        redirect_to rubygem_version_path(@rubygem.name, @version.number) and return
+      else
+        flash[:notice] = "Can't find any results with for '#{params[:rubygem_id]}' v #{params[:version_id]}"
+        redirect_to rubygems_path and return
+      end
+    end
+
+    respond_to do |format|
+      format.json do
+        q = TestResult.where('created_at > ?', 1.hour.ago)
+        render json: {
+          pass_count: q.where(result: true).count,
+          fail_count: q.where(result: false).count,
+          test_results: q.order('created_at DESC').all.collect(&:short_attributes)
+        }
+      end
+      format.html
     end
   end
 

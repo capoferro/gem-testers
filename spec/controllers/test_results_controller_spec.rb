@@ -1,6 +1,28 @@
 require 'spec_helper'
 
 describe TestResultsController do
+  describe 'GET index.json' do
+    it 'should respond to #index.json' do
+      get :index, format: 'json'
+      response.should be_success
+      response.body.should == '{"pass_count":0,"fail_count":0,"test_results":[]}'
+    end
+
+    it 'should include total pass/fail counts with rubygems' do
+      gem = Factory.create :rubygem, name: 'foo'
+      v = Factory.create :version, number: '1.0.0', rubygem_id: gem.id
+      Factory.create :test_result, rubygem_id: gem.id, version_id: v.id
+      gem2 = Factory.create :rubygem, name: 'fooble'
+      v2 = Factory.create :version, number: '1.0.0', rubygem_id: gem2.id
+      Factory.create :test_result, rubygem_id: gem2.id, version_id: v2.id, result: false
+      Factory.create :test_result, rubygem_id: gem2.id, version_id: v2.id
+
+      get :index, format: 'json'
+      response.body.should == {pass_count: 2, fail_count: 1, test_results: TestResult.order('created_at DESC').all.collect(&:short_attributes)}.to_json
+    end
+  end
+
+
   describe 'POST create' do
     describe 'with valid results' do
       before :all do

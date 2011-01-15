@@ -6,9 +6,13 @@ class TestResult < ActiveRecord::Base
   belongs_to :rubygem
   belongs_to :version
 
-  def simple_attributes
+  def short_attributes options={with_associations: true}
     attrs = self.attributes.clone
     attrs.delete 'test_output'
+    if options[:with_associations]
+      attrs['rubygem'] = self.rubygem.attributes
+      attrs['version'] = self.version.attributes
+    end
     attrs
   end
 end

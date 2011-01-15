@@ -27,9 +27,24 @@ describe TestResult do
     t.save.should be_true
   end
 
-  it "should supply test results without test output" do
-    t = Factory.build :test_result
-    t.simple_attributes['test_output'].should be_nil
+  it "should supply test results without test output, with associations" do
+    g = Factory.build :rubygem
+    v = Factory.build :version, rubygem: g
+    t = Factory.build :test_result, rubygem: g, version: v
+    attrs = t.short_attributes
+    attrs['test_output'].should be_nil
+    attrs['rubygem'].should == g.attributes
+    attrs['version'].should == v.attributes
+  end
+
+  it "should supply test results without test output, without associations" do
+    g = Factory.build :rubygem
+    v = Factory.build :version, rubygem: g
+    t = Factory.build :test_result, rubygem: g, version: v
+    attrs = t.short_attributes with_associations: false
+    attrs['test_output'].should be_nil
+    attrs['rubygem'].should be_nil
+    attrs['version'].should be_nil
   end
 
 end
