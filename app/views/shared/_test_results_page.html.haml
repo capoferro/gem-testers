@@ -1,6 +1,6 @@
 .title
   %h2
-    = @rubygem.name
+    = link_to(@rubygem.name, rubygem_path(@rubygem.name))
   = version_select(@rubygem, @version, @platform)
   = platform_select(@all_test_results, @rubygem, @platform, @version)
 .os-table-wrapper.border
