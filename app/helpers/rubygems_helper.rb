@@ -28,7 +28,7 @@ module RubygemsHelper
       [v.number, rubygem_version_path(rubygem.name, v.number, :platform => platform)] 
     end 
 
-    versions.unshift(['All versions', rubygem_path(rubygem.name)])
+    versions.reverse!.unshift(['All versions', rubygem_path(rubygem.name)])
     versions
   end
 
