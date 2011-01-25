@@ -3,7 +3,8 @@ GemTesters::Application.routes.draw do
 
   resources :rubygems, :path => 'gems' do
     constraints :id => Rubygem::ROUTE_MATCHER do
-      get "/feed.xml" => 'rubygems#feed', :as => 'feed'
+      get '/feed.xml' => 'rubygems#feed', :as => 'feed'
+      get '/paged.:format' => 'rubygems#show_paged', as: 'paged'
       resources :versions, :path => 'v' do
         resources :test_results
       end

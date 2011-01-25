@@ -1,3 +1,13 @@
+- content_for :javascripts do
+  :javascript
+    $(document).ready(function() {
+                    $('.test-results-table').dataTable({ 
+                      bJQueryUI: true,
+                      bServerSide: true,
+                      sAjaxSource: '#{rubygem_paged_path(@rubygem.name, %q[json])}'
+                    });
+                  });
+
 .title
   %h2
     = link_to(@rubygem.name, rubygem_path(@rubygem.name))
@@ -23,6 +33,4 @@
                   = pass_fail(ruby, os) == 'unknown' ? ' ' : "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:pass] + @os_matrix[ruby][os][:fail]}"
               
 = render :partial => 'shared/test_results', :locals => {:test_results => @test_results}
-
-      
-    
+  

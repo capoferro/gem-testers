@@ -2,8 +2,15 @@ require 'spec_helper'
 
 describe TestResult do
 
-  it "should accept valid attributes to create a new object" do
+  it "should give attributes in datatables format" do
     t = Factory.build :test_result
+    t.datatables_attributes.should == [true, "1.0.0.0", "someplatform", "3.0.0", "Linux", "somearch", "somevendor"]
+  end
+  
+  it "should accept valid attributes to create a new object" do
+    g = Factory.create :rubygem
+    v = Factory.create :version, rubygem: g
+    t = Factory.build :test_result, version: v, rubygem: g
     t.save.should be_true
   end
 
@@ -28,8 +35,8 @@ describe TestResult do
   end
 
   it "should supply test results without test output, with associations" do
-    g = Factory.build :rubygem
-    v = Factory.build :version, rubygem: g
+    g = Factory.create :rubygem
+    v = Factory.create :version, rubygem: g
     t = Factory.build :test_result, rubygem: g, version: v
     attrs = t.short_attributes
     attrs['test_output'].should be_nil
@@ -38,8 +45,8 @@ describe TestResult do
   end
 
   it "should supply test results without test output, without associations" do
-    g = Factory.build :rubygem
-    v = Factory.build :version, rubygem: g
+    g = Factory.create :rubygem
+    v = Factory.create :version, rubygem: g
     t = Factory.build :test_result, rubygem: g, version: v
     attrs = t.short_attributes with_associations: false
     attrs['test_output'].should be_nil

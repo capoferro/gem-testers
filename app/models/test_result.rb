@@ -15,4 +15,8 @@ class TestResult < ActiveRecord::Base
     end
     attrs
   end
+
+  def datatables_attributes
+    [self.result, self.version.number, self.platform, self.ruby_version, self.operating_system, self.architecture, self.vendor]
+  end
 end

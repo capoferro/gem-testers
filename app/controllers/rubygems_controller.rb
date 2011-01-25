@@ -13,8 +13,20 @@ class RubygemsController < ApplicationController
     end
   end
 
+  def show_paged
+    rubygem = Rubygem.where(name: params[:rubygem_id]).last || Rubygem.where(id: params[:rubygem_id]).last
+    
+    q = TestResult.where(rubygem_id: rubygem.id)
+    @count = q.count
+    filtered_q = q # here be filters
+    @filtered_count = filtered_q.count
+    @results = filtered_q.offset(params[:iDisplayStart]).limit(params[:iDisplayLength]).all
+    
+    render json: {iTotalRecords: @filtered_count, iTotalDisplayRecords: @count, aaData: @results.collect(&:datatables_attributes) }
+  end
+
   def show
-    @rubygem = Rubygem.where(name: params[:id]).last || (Rubygem.find(params[:id]) rescue nil)
+    @rubygem = Rubygem.where(name: params[:id]).last || Rubygem.where(id: params[:id]).last
     @platform = params[:platform] unless params[:platform].blank?
     respond_to do |format|
       format.json { render json: (@rubygem.nil? ? {} : @rubygem.to_json(include: { versions: {include: :test_results} } )) }
@@ -32,7 +44,7 @@ class RubygemsController < ApplicationController
             fill_results_page
           else
             if @platform
-              flash[:notice] = "No results for that gem and platform"
+              flash[:notice] = "No results for that platform"
               redirect_to rubygem_path(@rubygem) and return
             else
               flash[:notice] = "No results for that gem"

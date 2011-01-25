@@ -40,29 +40,10 @@ describe RubygemsController do
     response.body.should == '{}'
   end
 
-  it 'should respond to #index.json' do
-    get :index, format: 'json'
-    response.should be_success
-    response.body.should == '{"pass_count":0,"fail_count":0,"test_results":[]}'
-  end
-
-  it 'should include total pass/fail counts with rubygems' do
-    gem = Factory.create :rubygem, name: 'foo'
-    v = Factory.create :version, number: '1.0.0', rubygem_id: gem.id
-    Factory.create :test_result, rubygem_id: gem.id, version_id: v.id
-    gem2 = Factory.create :rubygem, name: 'fooble'
-    v2 = Factory.create :version, number: '1.0.0', rubygem_id: gem2.id
-    Factory.create :test_result, rubygem_id: gem2.id, version_id: v2.id, result: false
-    Factory.create :test_result, rubygem_id: gem2.id, version_id: v2.id
-
-    get :index, format: 'json'
-    response.body.should == {pass_count: 2, fail_count: 1, test_results: TestResult.order('created_at DESC').all.collect(&:short_attributes)}.to_json
-  end
-
   describe "When there is a platform parameter" do
     render_views 
 
-    before(:each) do
+    before do
       @r = Factory.create :rubygem
       10.times do 
         v = Factory.create :version, rubygem: @r
@@ -94,7 +75,59 @@ describe RubygemsController do
     it "should have the right platform selected when there is only one platform" do
       get :show, id: @r.name, platform: "jruby"
       response.should be_success
-      response.body.should match(%r!<option value="[^"]+" selected="selected">jruby</option>!i)
+      response.body.should match(%r!<option value="[^\"]+" selected="selected">jruby</option>!i)
+    end
+
+    it "should handle datatables splatter of parameters with show_paged" do
+      g = Factory.create :rubygem
+      v = Factory.create :version, rubygem: g
+      t = Array.new(20).collect { |x| Factory.create :test_result, version: v, rubygem: g }
+      expected_response = { iTotalRecords: 20, iTotalDisplayRecords: 20, aaData: t.slice(10..20).collect(&:datatables_attributes) }.to_json
+      get :show_paged, {
+        "rubygem_id"=> g.name,
+        "format"=>"json",
+        "_"=>"1295929530358",
+        "sEcho"=>"3",
+        "iColumns"=>"7",
+        "sColumns"=>"",
+        "iDisplayStart"=>"0",
+        "iDisplayLength"=>"10",
+        "sNames"=>",,,,,,",
+        "sSearch"=>"",
+        "bRegex"=>"false",
+        "sSearch_0"=>"",
+        "bRegex_0"=>"false",
+        "bSearchable_0"=>"true",
+        "sSearch_1"=>"",
+        "bRegex_1"=>"false",
+        "bSearchable_1"=>"true",
+        "sSearch_2"=>"",
+        "bRegex_2"=>"false",
+        "bSearchable_2"=>"true",
+        "sSearch_3"=>"",
+        "bRegex_3"=>"false",
+        "bSearchable_3"=>"true",
+        "sSearch_4"=>"",
+        "bRegex_4"=>"false",
+        "bSearchable_4"=>"true",
+        "sSearch_5"=>"",
+        "bRegex_5"=>"false",
+        "bSearchable_5"=>"true",
+        "sSearch_6"=>"",
+        "bRegex_6"=>"false",
+        "bSearchable_6"=>"true",
+        "iSortingCols"=>"1",
+        "iSortCol_0"=>"0",
+        "sSortDir_0"=>"asc",
+        "bSortable_0"=>"true",
+        "bSortable_1"=>"true",
+        "bSortable_2"=>"true",
+        "bSortable_3"=>"true",
+        "bSortable_4"=>"true",
+        "bSortable_5"=>"true",
+        "bSortable_6"=>"true"}
+      response.should be_successful
+      response.body.should == expected_response
     end
   end
 end
