@@ -1,18 +1,19 @@
 require 'spec_helper'
 
 describe RubygemsController do
-
+  before do
+    @g = Factory.create :rubygem
+    @v = Factory.create :version, rubygem: @g
+  end
+  
   it 'should #show successfully' do
-    r = Factory.create :rubygem
-    v = Factory.create :version, rubygem_id: r
-    tr = Factory.create :test_result, rubygem_id: r.id, version_id: v.id
-    get :show, id: r.name
+    tr = Factory.create :test_result, rubygem_id: @g.id, version_id: @v.id
+    get :show, id: @g.name
     response.should be_successful
   end
 
   it "should redirect if there are no test results" do
-    r = Factory.create :rubygem
-    get :show, id: r.name
+    get :show, id: @g.name
     response.should be_redirect
   end
 
@@ -24,13 +25,11 @@ describe RubygemsController do
   end
 
   it 'should respond to json requests' do
-    gem = Factory.create :rubygem, name: 'foo'
-    v = Factory.create :version, number: '1.0.0', rubygem_id: gem.id
-    10.times { Factory.create :test_result, rubygem_id: gem.id, version_id: v.id }
-      
-    get :show, id: gem.name, format: 'json'
+    10.times { Factory.create :test_result, rubygem_id: @g.id, version_id: @v.id }
+    
+    get :show, id: @g.name, format: 'json'
     response.should be_success
-    response.body.should == gem.to_json(include: { versions: {include: :test_results} } )
+    response.body.should == @g.to_json(include: { versions: {include: :test_results} } )
 
   end
 
@@ -44,47 +43,45 @@ describe RubygemsController do
     render_views 
 
     before do
-      @r = Factory.create :rubygem
       10.times do 
-        v = Factory.create :version, rubygem: @r
-        Factory.create :test_result, version: v, rubygem: @r, platform: "ruby" 
-        Factory.create :test_result, version: v, rubygem: @r, platform: "jruby" 
+        v = Factory.create :version, rubygem: @g
+        Factory.create :test_result, version: v, rubygem: @g, platform: "ruby" 
+        Factory.create :test_result, version: v, rubygem: @g, platform: "jruby" 
       end
       
-      @r2 = Factory.create :rubygem
-      @v2 = Factory.create :version, rubygem: @r2
-      Factory.create :test_result, version: @v2, rubygem: @r2, platform: "jruby" 
+      @g2 = Factory.create :rubygem
+      @v2 = Factory.create :version, rubygem: @g2
+      Factory.create :test_result, version: @v2, rubygem: @g2, platform: "jruby" 
     end
 
     it "should #show if there are tests for that platform" do
-      get :show, id: @r.name, platform: "ruby"
+      get :show, id: @g.name, platform: "ruby"
       response.should be_successful
     end
     
     it "should not omit valid platforms if one is selected" do
-      get :show, id: @r.name, platform: "ruby"
+      get :show, id: @g.name, platform: "ruby"
       response.should be_successful
       response.body.should match(%r!<option[^>]*>jruby</option>!)
     end
 
     it "should redirect if there are no tests for that platform" do
-      get :show, id: @r.name, platform: "rbx"
+      get :show, id: @g.name, platform: "rbx"
       response.should be_redirect
     end
     
     it "should have the right platform selected when there is only one platform" do
-      get :show, id: @r.name, platform: "jruby"
+      get :show, id: @g.name, platform: "jruby"
       response.should be_success
       response.body.should match(%r!<option value="[^\"]+" selected="selected">jruby</option>!i)
     end
+  end
 
-    it "should handle datatables splatter of parameters with show_paged" do
-      g = Factory.create :rubygem
-      v = Factory.create :version, rubygem: g
-      t = Array.new(20).collect { |x| Factory.create :test_result, version: v, rubygem: g }
-      expected_response = { iTotalRecords: 20, iTotalDisplayRecords: 20, aaData: t.slice(10..20).collect(&:datatables_attributes) }.to_json
-      get :show_paged, {
-        "rubygem_id"=> g.name,
+  
+  describe "datatables paging" do
+    before do
+      @datatables_params = {
+        "rubygem_id"=> @g.name,
         "format"=>"json",
         "_"=>"1295929530358",
         "sEcho"=>"3",
@@ -126,8 +123,81 @@ describe RubygemsController do
         "bSortable_4"=>"true",
         "bSortable_5"=>"true",
         "bSortable_6"=>"true"}
+    end
+    it "should handle datatables splatter of parameters with show_paged" do
+      t = Array.new(20).collect { |x| Factory.create :test_result, version: @v, rubygem: @g }
+      expected_response = { iTotalRecords: 20, iTotalDisplayRecords: 20, aaData: t.slice(10..20).collect(&:datatables_attributes) }.to_json
+      get :show_paged, @datatables_params
       response.should be_successful
       response.body.should == expected_response
+    end
+
+    describe "should honor sorting in for" do
+      before do
+        @params = @datatables_params.clone
+      end
+      
+      describe "result" do
+        it "ascending" do
+          @params['iSortCol_0'] = 0
+          @params['sSortDir_0'] = 'asc'
+          Array.new(5).collect { |x| Factory.create :test_result, result: true, version: @v, rubygem: @g }
+          Array.new(5).collect { |x| Factory.create :test_result, result: false, version: @v, rubygem: @g }
+          Array.new(3).collect { |x| Factory.create :test_result, result: true, version: @v, rubygem: @g }
+          get :show_paged, @params
+          r = JSON::parse response.body
+          r['aaData'].slice(0..4).collect { |x| x[0].should be_false }
+          r['aaData'].slice(5..12).collect { |x| x[0].should be_true }
+        end
+        
+        it "descending" do
+          @params['iSortCol_0'] = 0
+          @params['sSortDir_0'] = 'desc'
+          Array.new(5).collect { |x| Factory.create :test_result, result: true, version: @v, rubygem: @g }
+          Array.new(5).collect { |x| Factory.create :test_result, result: false, version: @v, rubygem: @g }
+          Array.new(3).collect { |x| Factory.create :test_result, result: true, version: @v, rubygem: @g }
+          get :show_paged, @params
+          r = JSON::parse response.body
+          r['aaData'].slice(0..7).collect { |x| x[0].should be_true }
+          r['aaData'].slice(8..12).collect { |x| x[0].should be_false }
+        end
+        
+      end
+      describe "gem version" do
+
+
+        it "ascending" do
+          @params['iSortCol_0'] = 1
+          @params['sSortDir_0'] = 'asc'
+          v1 = Factory.create :version, number: '0.1.0'
+          v3 = Factory.create :version, number: '1.2.0'
+          v2 = Factory.create :version, number: '0.2.0'
+          Array.new(5).collect { |x| Factory.create :test_result, result: true, version: v1, rubygem: @g }
+          Array.new(5).collect { |x| Factory.create :test_result, result: false, version: v3, rubygem: @g }
+          Array.new(3).collect { |x| Factory.create :test_result, result: true, version: v2, rubygem: @g }
+          get :show_paged, @params
+          r = JSON::parse response.body
+          r['aaData'].slice(0..4).collect { |x| x[1].should == '0.1.0' }
+          r['aaData'].slice(5..7).collect { |x| x[1].should == '0.2.0' }
+          r['aaData'].slice(8..9).collect { |x| x[1].should == '1.2.0' }
+        end
+        
+        it "descending" do
+          @params['iSortCol_0'] = 1
+          @params['sSortDir_0'] = 'desc'
+          v1 = Factory.create :version, number: '0.1.0'
+          v3 = Factory.create :version, number: '1.2.0'
+          v2 = Factory.create :version, number: '0.2.0'
+          Array.new(5).collect { |x| Factory.create :test_result, result: true, version: v1, rubygem: @g }
+          Array.new(5).collect { |x| Factory.create :test_result, result: false, version: v3, rubygem: @g }
+          Array.new(3).collect { |x| Factory.create :test_result, result: true, version: v2, rubygem: @g }
+          get :show_paged, @params
+          r = JSON::parse response.body
+          r['aaData'].slice(0..4).collect { |x| x[1].should == '1.2.0' }
+          r['aaData'].slice(5..7).collect { |x| x[1].should == '0.2.0' }
+          r['aaData'].slice(8..10).collect { |x| x[1].should == '0.1.0' }
+        end
+      end
     end
   end
 end
