@@ -30,7 +30,7 @@ class RubygemsController < ApplicationController
     @filtered_count = filtered_q.count
     @results = filtered_q.offset(params[:iDisplayStart]).limit(params[:iDisplayLength]).all
     
-    render json: {iTotalRecords: @filtered_count, iTotalDisplayRecords: @count, aaData: @results.collect(&:datatables_attributes) }
+    render json: {iTotalRecords: @filtered_count, iTotalDisplayRecords: @count, aaData: @results.collect(&:datatables_attributes)}
   end
 
   def show
