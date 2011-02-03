@@ -34,7 +34,12 @@ class TestResultsController < ApplicationController
     bubble_errors_from(@gem = Rubygem.find_or_create_by_name(@result_details[:name])) if @result_details
 
     if @result_details[:version]
-      bubble_errors_from(@v = Version.find_or_create_by_number(@result_details[:version][:release], rubygem: @gem, prerelease: @result_details[:version][:prerelease])) if @gem and @gem.valid?
+      if @gem and @gem.valid?
+        @v = Version.where(number: @result_details[:version][:release], prerelease: @result_details[:version][:prerelease], rubygem_id: @gem.id).first
+        unless @v
+          bubble_errors_from(@v = Version.create(number: @result_details[:version][:release], prerelease: @result_details[:version][:prerelease], rubygem: @gem))
+        end
+      end
     else
       @response.errors.add :'Version', 'can\'t be blank'
     end

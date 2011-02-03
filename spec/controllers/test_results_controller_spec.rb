@@ -160,7 +160,31 @@ YAML
         expected_response.success = false
         response.body.should == expected_response.to_yaml
       end
-      
+
+      it "should create a new version for a new gem" do
+        r = Factory.create :rubygem
+        v = Factory.create :version, rubygem: r
+
+        post :create, results: <<-YAML
+--- 
+:arch: x86_64-linux
+:vendor: unknown
+:os: linux
+:machine_arch: x86_64
+:name: methlab
+:version: 
+  :prerelease: false
+  :release: #{v.number}
+:result: 
+:test_output: |
+  /home/josiah/.rvm/rubies/ruby-1.9.2-p0/bin/ruby -I"lib:lib" "/home/josiah/.rvm/rubies/ruby-1.9.2-p0/lib/ruby/1.9.1/rake/rake_test_loader.rb" "test/test_checks.rb" "test/test_integrate.rb" "test/test_inline.rb" "test/test_defaults.rb" 
+  Loaded suite /home/josiah/.rvm/rubies/ruby-1.9.2-p0/lib/ruby/1.9.1/rake/rake_test_loader
+  Started
+  ............
+
+YAML
+        Version.all.select { |x| x.number == v.number }.count.should == 2
+      end
     end
   end
 
