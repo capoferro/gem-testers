@@ -46,6 +46,47 @@ describe TestResultsController do
 YAML
       end
 
+      it 'should create a result if the version # already exists' do
+        g = Factory.create :rubygem, name: 'rubygems-test'
+        Factory.create :version, number: '0.3.0', prerelease: false, rubygem: g
+        
+        post :create, {"results"=> <<RESULTS}
+--- 
+:arch: x86_64-darwin10.6.0
+:vendor: apple
+:os: darwin10.6.0
+:machine_arch: x86_64
+:name: rubygems-test
+:version: 
+  :release: 0.3.0
+  :prerelease: 
+:platform: ruby
+:ruby_version: 1.9.2
+:result: true
+:test_output: |
+  (in /Users/erikh/.rvm/gems/ruby-1.9.2-p136/gems/rubygems-test-0.3.0)
+  Loaded suite -e
+  Started  ../Users/erikh/.rvm/rubies/ruby-1.9.2-p136/lib/ruby/site_ruby/1.9.1/rubygems/specification.rb:725:in `to_yaml': YAML.quick_emit is deprecated
+
+  Successfully uninstalled test-gem-0.0.0  ./Users/erikh/.rvm/rubies/ruby-1.9.2-p136/lib/ruby/site_ruby/1.9.1/rubygems/specification.rb:725:in `to_yaml': YAML.quick_emit is deprecated
+  Successfully uninstalled test-gem-0.0.0
+  ERROR:  Couldn't find rakefile -- this gem cannot be tested. Aborting.
+  Successfully uninstalled test-gem-0.0.0
+  ./Users/erikh/.rvm/rubies/ruby-1.9.2-p136/lib/ruby/site_ruby/1.9.1/rubygems/specification.rb:725:in `to_yaml': YAML.quick_emit is deprecated
+  Successfully uninstalled test-gem-0.0.0
+  .
+  Finished in 0.758995 seconds.
+  
+  5 tests, 11 assertions, 0 failures, 0 errors, 0 skips
+  Test run options: --seed 1201
+RESULTS
+
+        r = YAML::load response.body
+        r[:success].should be_true
+        r[:errors].empty?.should be_true
+        
+      end
+
       it 'should accept test results yaml and store it' do
         r = Factory.create(:rubygem, :name => 'methlab')
         n = Factory.create(:version, :rubygem_id => r.id, :number => '0.1.0')

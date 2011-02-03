@@ -27,6 +27,7 @@ class TestResultsController < ApplicationController
     end
   end
 
+
   def create
     @response = Response.new
 
@@ -35,7 +36,9 @@ class TestResultsController < ApplicationController
 
     if @result_details[:version]
       if @gem and @gem.valid?
-        @v = Version.where(number: @result_details[:version][:release], prerelease: @result_details[:version][:prerelease], rubygem_id: @gem.id).first
+        conditions = {number: @result_details[:version][:release], rubygem_id: @gem.id}
+        conditions.merge(prerelease: @result_details[:version][:prerelease]) unless @result_details[:version][:prerelease].nil?
+        @v = Version.where(conditions).first
         unless @v
           bubble_errors_from(@v = Version.create(number: @result_details[:version][:release], prerelease: @result_details[:version][:prerelease], rubygem: @gem))
         end
