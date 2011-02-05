@@ -45,7 +45,7 @@ describe TestResultsController do
 
 YAML
       end
-
+      
       it 'should create a result if the version # already exists' do
         g = Factory.create :rubygem, name: 'rubygems-test'
         Factory.create :version, number: '0.3.0', prerelease: false, rubygem: g

@@ -40,7 +40,7 @@ class TestResultsController < ApplicationController
         conditions.merge(prerelease: @result_details[:version][:prerelease]) unless @result_details[:version][:prerelease].nil?
         @v = Version.where(conditions).first
         unless @v
-          bubble_errors_from(@v = Version.create(number: @result_details[:version][:release], prerelease: @result_details[:version][:prerelease], rubygem: @gem))
+          bubble_errors_from(@v = Version.create!(number: @result_details[:version][:release], prerelease: @result_details[:version][:prerelease], rubygem: @gem))
         end
       end
     else

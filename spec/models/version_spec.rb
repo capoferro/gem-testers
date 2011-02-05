@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe Version do
   before do
+    @gem = Factory.create :rubygem
     @valid_attributes = {
       number: '1.0.0.0',
-      rubygem_id: 1,
+      rubygem: @gem,
       prerelease: false
     }
-    @gem = Factory.create :rubygem
   end
 
   it "should accept valid attributes to create a new object" do
@@ -21,6 +21,13 @@ describe Version do
     v.valid?.should be_true
     v.save.should be_true
     v.prerelease.should be_false
+  end
+
+  it 'should create a new version without prerelease defined' do
+    attrs = @valid_attributes.clone
+    attrs.delete :prerelease
+    v = Version.new attrs
+    v.save.should be_true
   end
 
   it 'should not create 2 of the same version #s within the scope of a rubygem' do

@@ -11,5 +11,6 @@ class Version < ActiveRecord::Base
 
   def check_prerelease
     self.prerelease = false if self.prerelease.nil?
+    not self.prerelease.nil?
   end
 end
