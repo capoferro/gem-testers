@@ -1,4 +1,7 @@
 .title
+  - if @version and @version.prerelease
+    .prerelease-badge
+      prerelease
   %h2
     = link_to(@rubygem.name, rubygem_path(@rubygem.name))
   = version_select(@rubygem, @version, @platform)
