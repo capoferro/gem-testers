@@ -1,7 +1,11 @@
 .title
+  - if @result.version.prerelease
+    .prerelease-badge
+      prerelease
   %h2
     = link_to(@result.rubygem.name, rubygem_path(@result.rubygem.name))
   = link_to(@result.version.number, rubygem_version_path(@result.rubygem.name, @result.version.number), :class => 'version')
+
 
 = render :partial => 'shared/test_results', :object => @result
 .border.no-padding

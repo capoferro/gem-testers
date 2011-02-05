@@ -261,3 +261,14 @@ input#rubygems {
 #latest-results h2 { text-align: center; }
 #latest-results table { width: 80%; margin-left: auto; margin-right: auto; }
 #latest-results td { font-size: 1.2em; padding: 5px; }
+
+.prerelease-badge {
+    border-radius: 3px;
+    border: #CBC2AE 3px solid;
+    font-weight: bold;
+    font-size: 1.2em;
+    width: 75px;
+    padding: 2px;
+    text-align: center;
+    background: #CBC2AE;
+}
