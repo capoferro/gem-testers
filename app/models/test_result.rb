@@ -6,6 +6,7 @@ class TestResult < ActiveRecord::Base
   belongs_to :rubygem
   belongs_to :version
 
+  
   def short_attributes options={with_associations: true}
     attrs = self.attributes.clone
     attrs.delete 'test_output'
