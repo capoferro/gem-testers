@@ -9,21 +9,30 @@ class TestResult < ActiveRecord::Base
 
   scope :matching, -> search_term do
     search_args = []
-    search = ''
-    if 'pass'.include? search_term
+    search = []
+
+    pass_fail_term = search_term.strip.downcase
+
+    pass_fail_query = false
+
+    if pass_fail_term == 'pass' 
       search_args << true
-      search += 'result = ? OR '
+      search << 'result = ?'
+      pass_fail_query = true
     end
     
-    if 'fail'.include? search_term
+    if pass_fail_term == 'fail'
       search_args << false
-      search += 'result = ? OR '
+      search << 'result = ?'
+      pass_fail_query = true
     end
 
-    search += DATATABLES_COLUMNS[1..-1].join(' LIKE ? OR ') + ' LIKE ?'
-    (DATATABLES_COLUMNS.size - 1).times { search_args << "%#{search_term}%" }
+    unless search_term.empty? or pass_fail_query
+      search << DATATABLES_COLUMNS[1..-1].map { |x| "#{x} LIKE ?" }
+      (DATATABLES_COLUMNS.size - 1).times { search_args << "%#{search_term}%" }
+    end
 
-    search_args.unshift search
+    search_args.unshift search.join(" OR ")
     
     includes(:version).where(*search_args)
   end
