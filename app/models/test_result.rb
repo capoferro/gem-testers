@@ -51,4 +51,5 @@ class TestResult < ActiveRecord::Base
     humanized_result += "</a>"
     [humanized_result].concat [self.version.number, self.platform, self.ruby_version, self.operating_system, self.architecture, self.vendor].collect {|x| "<div class=\"datatable-cell\">#{x}</div>"}
   end
+
 end
