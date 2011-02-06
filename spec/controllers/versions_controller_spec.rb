@@ -1,14 +1,16 @@
 require 'spec_helper'
 
 describe VersionsController do
-  it 'should redirect #show with no test results' do
-    r = Factory.create :rubygem
-    v = Factory.create :version, rubygem_id: r.id
-    get :show, rubygem_id: r.name, id: v.number
-
-    response.should be_redirect 
+  describe '' do
+    render_views
+    it 'should redirect #show with no test results' do
+      r = Factory.create :rubygem
+      v = Factory.create :version, rubygem_id: r.id
+      get :show, rubygem_id: r.name, id: v.number
+      
+      response.body.should match(/Nothing to see here!/)
+    end
   end
-
   it 'should redirect to rubygems#index when rubygem not found' do
     get :show, rubygem_id: 'doesntexist', id: 'doesntmatter'
     
@@ -78,7 +80,7 @@ describe VersionsController do
 
     it "should redirect if there are no tests for that platform" do
       get :show, rubygem_id: @r.name, id: @v.number, platform: "rbx"
-      response.should be_redirect
+      response.body.should match(/Nothing to see here!/)
     end
 
     it "should have the right platform selected when there is only one platform" do

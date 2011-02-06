@@ -12,15 +12,18 @@ describe RubygemsController do
     response.should be_successful
   end
 
-  it "should redirect if there are no test results" do
-    get :show, id: @g.name
-    response.should be_redirect
+  describe '' do
+    render_views
+    it "should redirect if there are no test results" do
+      get :show, id: @g.name
+      response.body.should match(/Nothing to see here!/)
+    end
   end
 
   it 'should route to the root url when showing a gem that does not exist' do
     get :show, id: 'foo'
     response.should be_redirect
-    flash[:notice].should == "Couldn't find that gem!"
+    flash[:notice].should == "Sorry, there's no data for foo yet."
     response.should redirect_to root_path 
   end
 
@@ -67,7 +70,7 @@ describe RubygemsController do
 
     it "should redirect if there are no tests for that platform" do
       get :show, id: @g.name, platform: "rbx"
-      response.should be_redirect
+      response.body.should match(/Nothing to see here!/)
     end
     
     it "should have the right platform selected when there is only one platform" do
@@ -83,7 +86,6 @@ describe RubygemsController do
       @datatables_params = {
         "rubygem_id"=> @g.name,
         "format"=>"json",
-        "_"=>"1295929530358",
         "sEcho"=>"3",
         "iColumns"=>"7",
         "sColumns"=>"",
@@ -126,7 +128,7 @@ describe RubygemsController do
     end
     it "should handle datatables splatter of parameters with show_paged" do
       t = Array.new(20).collect { |x| Factory.create :test_result, version: @v, rubygem: @g }
-      expected_response = { iTotalRecords: 20, iTotalDisplayRecords: 20, aaData: t.slice(10..20).collect(&:datatables_attributes) }.to_json
+      expected_response = { iTotalRecords: 20, iTotalDisplayRecords: 20, aaData: t.slice(0..9).collect(&:datatables_attributes) }.to_json
       get :show_paged, @datatables_params
       response.should be_successful
       response.body.should == expected_response
@@ -138,7 +140,7 @@ describe RubygemsController do
       end
       it 'pass or fail' do
         @params['sSearch'] = 'pass'
-        t = Factory.create :test_result, result: true
+        t = Factory.create :test_result, rubygem: @g, version: @v, result: true
         expected_response = {iTotalRecords: 1, iTotalDisplayRecords: 1, aaData: [t.datatables_attributes]}.to_json
         get :show_paged, @params
 
@@ -161,8 +163,8 @@ describe RubygemsController do
           Array.new(3).collect { |x| Factory.create :test_result, result: true, version: @v, rubygem: @g }
           get :show_paged, @params
           r = JSON::parse response.body
-          r['aaData'].slice(0..4).collect { |x| x[0].should be_false }
-          r['aaData'].slice(5..12).collect { |x| x[0].should be_true }
+          r['aaData'].slice(0..4).collect { |x| x[0].should match(/FAIL/) }
+          r['aaData'].slice(5..12).collect { |x| x[0].should match(/PASS/) }
         end
         
         it "descending" do
@@ -173,8 +175,8 @@ describe RubygemsController do
           Array.new(3).collect { |x| Factory.create :test_result, result: true, version: @v, rubygem: @g }
           get :show_paged, @params
           r = JSON::parse response.body
-          r['aaData'].slice(0..7).collect { |x| x[0].should be_true }
-          r['aaData'].slice(8..12).collect { |x| x[0].should be_false }
+          r['aaData'].slice(0..7).collect { |x| x[0].should match(/PASS/) }
+          r['aaData'].slice(8..12).collect { |x| x[0].should match(/FAIL/) }
         end
         
       end
@@ -192,9 +194,9 @@ describe RubygemsController do
           Array.new(3).collect { |x| Factory.create :test_result, result: true, version: v2, rubygem: @g }
           get :show_paged, @params
           r = JSON::parse response.body
-          r['aaData'].slice(0..4).collect { |x| x[1].should == '0.1.0' }
-          r['aaData'].slice(5..7).collect { |x| x[1].should == '0.2.0' }
-          r['aaData'].slice(8..9).collect { |x| x[1].should == '1.2.0' }
+          r['aaData'].slice(0..4).collect { |x| x[1].should match(/0.1.0/) }
+          r['aaData'].slice(5..7).collect { |x| x[1].should match(/0.2.0/) }
+          r['aaData'].slice(8..9).collect { |x| x[1].should match(/1.2.0/) }
         end
         
         it "descending" do
@@ -208,9 +210,9 @@ describe RubygemsController do
           Array.new(3).collect { |x| Factory.create :test_result, result: true, version: v2, rubygem: @g }
           get :show_paged, @params
           r = JSON::parse response.body
-          r['aaData'].slice(0..4).collect { |x| x[1].should == '1.2.0' }
-          r['aaData'].slice(5..7).collect { |x| x[1].should == '0.2.0' }
-          r['aaData'].slice(8..10).collect { |x| x[1].should == '0.1.0' }
+          r['aaData'].slice(0..4).collect { |x| x[1].should match(/1.2.0/) }
+          r['aaData'].slice(5..7).collect { |x| x[1].should match(/0.2.0/) }
+          r['aaData'].slice(8..10).collect { |x| x[1].should match(/0.1.0/) }
         end
       end
     end

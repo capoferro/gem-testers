@@ -9,7 +9,14 @@ describe TestResult do
   end
 
   it "should give attributes in datatables format" do
-    @t.datatables_attributes.should == [true, "1.0.0.0", "someplatform", "3.0.0", "Linux", "somearch", "somevendor"]
+    @t.save!
+    @t.datatables_attributes.should == ["<a href=\"/gems/ruby1stgem/v/1.0.0.0/test_results/1\"><div class=\"datatable-cell grade pass\">PASS</div></a></a>",
+                                        "<div class=\"datatable-cell\">1.0.0.0</div>",
+                                        "<div class=\"datatable-cell\">someplatform</div>",
+                                        "<div class=\"datatable-cell\">3.0.0</div>",
+                                        "<div class=\"datatable-cell\">Linux</div>",
+                                        "<div class=\"datatable-cell\">somearch</div>",
+                                        "<div class=\"datatable-cell\">somevendor</div>"]
   end
   
   it "should accept valid attributes to create a new object" do
@@ -55,7 +62,7 @@ describe TestResult do
       Factory.create :test_result, result: false
       Factory.create :test_result, result: true
 
-      t = TestResult.matching('pa')
+      t = TestResult.matching('pass')
       t.size.should == 1
       r = t.first
       r.result.should == true
@@ -65,7 +72,7 @@ describe TestResult do
       Factory.create :test_result, result: false
       Factory.create :test_result, result: true
 
-      t = TestResult.matching('fa')
+      t = TestResult.matching('fail')
       t.size.should == 1
       r = t.first
       r.result.should == false
