@@ -1,11 +1,12 @@
 - content_for :javascripts do
   :javascript
     $(document).ready(function() {
-                    $('.test-results-table').dataTable({ 
-                      bJQueryUI: true,
-                      bServerSide: true,
-                      sAjaxSource: '#{@paged_source}'
-                    });
+                    table = $('.test-results-table').dataTable({ 
+                              bJQueryUI: true,
+                              bServerSide: true,
+                              sAjaxSource: '#{@paged_source}'
+                            });
+                    table.fnSort( [ [1,'desc'] ] );
                   });
 
 .title
