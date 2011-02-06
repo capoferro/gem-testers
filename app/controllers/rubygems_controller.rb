@@ -21,32 +21,25 @@ class RubygemsController < ApplicationController
   def show
     @rubygem = Rubygem.where(name: params[:id]).last || Rubygem.where(id: params[:id]).last
     @platform = params[:platform] unless params[:platform].blank?
-    @paged_source = rubygem_paged_path(@rubygem.name, %q[json]) + (@platform.nil? ? '' : '?platform=' + @platform)
+
     respond_to do |format|
       format.json { render json: (@rubygem.nil? ? {} : @rubygem.to_json(include: { versions: {include: :test_results} } )) }
       format.html do
         if @rubygem
+          @paged_source = rubygem_paged_path(@rubygem.name, %q[json])
           if @platform
+            @paged_source += '?platform=' + @platform
             @test_results = TestResult.where(rubygem_id: @rubygem.id).where(platform: @platform).all
             @all_test_results = TestResult.where(rubygem_id: @rubygem.id)
           else
             @test_results = TestResult.where(rubygem_id: @rubygem.id).all
             @all_test_results = @test_results
           end
-
-          unless @test_results.empty?
-            fill_results_page
-          else
-            if @platform
-              flash[:notice] = "No results for that platform"
-              redirect_to rubygem_path(@rubygem) and return
-            else
-              flash[:notice] = "No results for that gem"
-              redirect_to root_path and return
-            end
-          end
+          
+          fill_results_page
+          
         else
-          flash[:notice] = "Couldn't find that gem!"
+          flash[:notice] = "Sorry, there's no data for #{params[:id]} yet."
           redirect_to :back rescue redirect_to root_path and return
         end
       end

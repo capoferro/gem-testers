@@ -43,20 +43,9 @@ class VersionsController < ApplicationController
           else
             @test_results = @all_test_results = TestResult.where(rubygem_id: @rubygem.id, version_id: @version.id).all
           end
-        else
-          @test_results = @all_test_results = []
         end
       end
-     
-      if @test_results.empty?
-        flash[:notice] = ''
-        flash[:notice] += "No results for v#{@version.number}" if @version
-        flash[:notice] += " on #{@platform}" if @platform
-        flash[:notice] += "No results for that query." if flash[:notice].blank?
-        redirect_to rubygem_path(@rubygem.name) and return
-      else
-        fill_results_page
-      end
+      fill_results_page
     end
   end
 
