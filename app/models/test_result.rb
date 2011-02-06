@@ -10,12 +10,12 @@ class TestResult < ActiveRecord::Base
   scope :matching, -> search_term do
     search_args = []
     search = ''
-    if 'pass' =~ /#{search_term}/
+    if 'pass'.include? search_term
       search_args << true
       search += 'result = ? OR '
     end
     
-    if 'fail' =~ /#{search_term}/
+    if 'fail'.include? search_term
       search_args << false
       search += 'result = ? OR '
     end
