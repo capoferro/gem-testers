@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'Rubygem routing' do
   it 'should route to rubygems#index' do
-    { :get => '/' }.should route_to(controller: 'rubygems',
+    { get: '/' }.should route_to(controller: 'rubygems',
                                     action: 'index')
   end
 
@@ -14,16 +14,23 @@ describe 'Rubygem routing' do
 
   ['thegem', 'the-gem',  'THEgem', '-thegem', 'thegem-', 'the_gem', '_thegem', 'thegem_'].each do |gemname| # TODO: gems with `.`
     it "should route to rubygems#show for #{gemname}" do
-      { :get => "/gems/#{gemname}" }.should route_to(:controller => 'rubygems',
-                                                     :action => 'show',
-                                                     :id => gemname)
+      { get: "/gems/#{gemname}" }.should route_to(controller: 'rubygems',
+                                                     action: 'show',
+                                                     id: gemname)
     end
 
     it "should route to rubygems#show.json for #{gemname}" do
-      { :get => "/gems/#{gemname}.json" }.should route_to(:controller => 'rubygems',
-                                                          :action => 'show',
-                                                          :format => 'json',
-                                                          :id => gemname)
+      { get: "/gems/#{gemname}.json" }.should route_to(controller: 'rubygems',
+                                                          action: 'show',
+                                                          format: 'json',
+                                                          id: gemname)
+    end
+
+    it "should route to rubygems#show_paged.json for #{gemname}" do
+      { get: "/gems/#{gemname}/paged.json" }.should route_to(controller: 'rubygems',
+                                                        action: 'show_paged',
+                                                        format: 'json',
+                                                        rubygem_id: gemname)
     end
   end
 

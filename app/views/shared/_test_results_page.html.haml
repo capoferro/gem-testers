@@ -1,3 +1,13 @@
+- content_for :javascripts do
+  :javascript
+    $(document).ready(function() {
+                    $('.test-results-table').dataTable({ 
+                      bJQueryUI: true,
+                      bServerSide: true,
+                      sAjaxSource: '#{@paged_source}'
+                    });
+                  });
+
 .title
   - if @version and @version.prerelease
     .prerelease-badge
@@ -10,22 +20,22 @@
   .background
     .os-table-centering-wrapper
       .os-table-inner-centering-wrapper
-        %table.os-table
-          %tr
-            %td.header
-              ruby -v
-            - @ruby_versions.each do |ruby|
-              %td.header.column-label
-                = ruby || 'not reported'
-          - @operating_systems.each do |os|
+        - if @os_matrix.empty?
+          Nothing to see here!
+        - else
+          %table.os-table
             %tr
-              %td.ruby-header.row-label
-                = os.capitalize
+              %td.header
+                ruby -v
               - @ruby_versions.each do |ruby|
-                %td.result-cell{:class => pass_fail(ruby, os)}
-                  = pass_fail(ruby, os) == 'unknown' ? ' ' : "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:pass] + @os_matrix[ruby][os][:fail]}"
-              
-= render :partial => 'shared/test_results', :locals => {:test_results => @test_results}
-
-      
-    
+                %td.header.column-label
+                  = ruby || 'not reported'
+            - @operating_systems.each do |os|
+              %tr
+                %td.ruby-header.row-label
+                  = os.capitalize
+                - @ruby_versions.each do |ruby|
+                  %td.result-cell{:class => pass_fail(ruby, os)}
+                    = pass_fail(ruby, os) == 'unknown' ? ' ' : "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:pass] + @os_matrix[ruby][os][:fail]}"
+= render :partial => 'shared/test_results_datatable'
+  
