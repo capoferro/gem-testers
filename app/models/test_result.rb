@@ -23,7 +23,7 @@ class TestResult < ActiveRecord::Base
     
     if pass_fail_term == 'fail'
       search_args << false
-      search += 'result = ? OR '
+      search << 'result = ?'
       pass_fail_query = true
     end
 
