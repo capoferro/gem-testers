@@ -11,7 +11,7 @@ module ShowPaged
       conditions.merge!(version_id: v.id)
     end
     
-    q = TestResult.where(conditions)
+    q = TestResult.where(conditions).includes(:version).includes(:rubygem)
     
     @count = q.count
 
