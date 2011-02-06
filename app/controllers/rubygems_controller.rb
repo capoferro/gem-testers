@@ -1,6 +1,11 @@
 require 'rss_feed'
+require 'show_paged'
+
 
 class RubygemsController < ApplicationController
+
+  include ShowPaged
+  
   def index
     if request.xhr? # autocomplete for the homepage
       @rubygems = Rubygem.where(['name LIKE ?', "%#{params[:term]}%"]).all
@@ -13,24 +18,10 @@ class RubygemsController < ApplicationController
     end
   end
 
-  def show_paged
-    rubygem = Rubygem.where(name: params[:rubygem_id]).last || Rubygem.where(id: params[:rubygem_id]).last
-
-    q = TestResult.where(rubygem_id: rubygem.id)
-    
-    @count = q.count
-
-    filtered_q = q.order("#{TestResult::DATATABLES_COLUMNS[params[:iSortCol_0].to_i]} #{params[:sSortDir_0]}").matching(params[:sSearch])
-
-    @filtered_count = filtered_q.count
-    @results = filtered_q.offset(params[:iDisplayStart]).limit(params[:iDisplayLength]).all
-    
-    render json: {iTotalRecords: @count, iTotalDisplayRecords: @filtered_count, aaData: @results.collect(&:datatables_attributes)}
-  end
-
   def show
     @rubygem = Rubygem.where(name: params[:id]).last || Rubygem.where(id: params[:id]).last
     @platform = params[:platform] unless params[:platform].blank?
+    @paged_source = rubygem_paged_path(@rubygem.name, %q[json]) + (@platform.nil? ? '' : '?platform=' + @platform)
     respond_to do |format|
       format.json { render json: (@rubygem.nil? ? {} : @rubygem.to_json(include: { versions: {include: :test_results} } )) }
       format.html do

@@ -6,6 +6,7 @@ GemTesters::Application.routes.draw do
       get '/feed.xml' => 'rubygems#feed', :as => 'feed'
       get '/paged.:format' => 'rubygems#show_paged', as: 'paged'
       resources :versions, :path => 'v' do
+        get '/paged.:format' => 'versions#show_paged', as: 'paged'
         resources :test_results
       end
     end

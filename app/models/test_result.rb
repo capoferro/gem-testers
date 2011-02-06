@@ -1,6 +1,8 @@
 class TestResult < ActiveRecord::Base
 
   DATATABLES_COLUMNS = ['result', 'versions.number', 'platform', 'ruby_version', 'operating_system', 'architecture', 'vendor'].freeze
+
+  include Rails.application.routes.url_helpers
   
   validates_presence_of :rubygem_id, :version_id
   validates_inclusion_of :result, in: [true, false], message: 'must be true or false'
@@ -40,11 +42,13 @@ class TestResult < ActiveRecord::Base
   end
 
   def datatables_attributes
-    humanized_result = if self.result
-                         '<td class="grade pass">PASS</td>'
-                       else
-                         '<td class="grade fail">FAIL</td>'
-                       end
-    [humanized_result, self.version.number, self.platform, self.ruby_version, self.operating_system, self.architecture, self.vendor]
+    humanized_result = "<a href=\"#{rubygem_version_test_result_path(self.rubygem.name, self.version.number, self)}\">"
+    humanized_result += if self.result
+                          '<div class="datatable-cell grade pass">PASS</div></a>'
+                        else
+                          '<div class="datatable-cell grade fail">FAIL</div>'
+                        end
+    humanized_result += "</a>"
+    [humanized_result].concat [self.version.number, self.platform, self.ruby_version, self.operating_system, self.architecture, self.vendor].collect {|x| "<div class=\"datatable-cell\">#{x}</div>"}
   end
 end

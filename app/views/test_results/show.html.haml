@@ -3,7 +3,8 @@
     = link_to(@result.rubygem.name, rubygem_path(@result.rubygem.name))
   = link_to(@result.version.number, rubygem_version_path(@result.rubygem.name, @result.version.number), :class => 'version')
 
-= render :partial => 'shared/test_results', :object => @result
+= render :layout => 'shared/test_results_datatable' do
+  = render :partial => 'shared/test_result', :object => @result
 .border.no-padding
   .background.no-padding
     #output

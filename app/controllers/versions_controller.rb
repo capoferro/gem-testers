@@ -1,5 +1,9 @@
+require 'show_paged'
+
 class VersionsController < ApplicationController
 
+  include ShowPaged
+  
   def index
     redirect_to rubygem_path(params[:rubygem_id])
   end
@@ -14,6 +18,8 @@ class VersionsController < ApplicationController
     @rubygem = Rubygem.where(name: params[:rubygem_id]).first
     @version = Version.where(number: version_number, rubygem_id: @rubygem.id).first if @rubygem
     @platform = params[:platform] unless params[:platform].blank?
+
+    
     
     if respond_to_json
       render json: @version, include: :test_results if not @version.nil?
@@ -29,7 +35,9 @@ class VersionsController < ApplicationController
         redirect_to rubygem_path(@rubygem.name) and return
       else
         if @rubygem and @version
+          @paged_source = version_paged_path(@rubygem.name, @version.number, %q[json])
           if @platform
+            @paged_source += "?platform=#{@platform}"
             @test_results = TestResult.where(rubygem_id: @rubygem.id, version_id: @version.id, platform: @platform).all
             @all_test_results = TestResult.where(rubygem_id: @rubygem.id, version_id: @version.id).all
           else
@@ -41,7 +49,10 @@ class VersionsController < ApplicationController
       end
      
       if @test_results.empty?
-        flash[:notice] = "No results for that query."
+        flash[:notice] = ''
+        flash[:notice] += "No results for v#{@version.number}" if @version
+        flash[:notice] += " on #{@platform}" if @platform
+        flash[:notice] += "No results for that query." if flash[:notice].blank?
         redirect_to rubygem_path(@rubygem.name) and return
       else
         fill_results_page

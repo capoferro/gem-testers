@@ -60,14 +60,27 @@ body {
   width: 100%;
   margin: 0 auto;
 }
-.test-results-table td, .os-table td.header {
+.test-results-table td {
+  padding: 0px;
+  text-align: center;
+  height: 30px;
+}
+.test-results-table a {
+  text-decoration: none;
+}
+.test-results-table .datatable-cell {
+  height: 100%;
+  padding: 10px;
+  text-align: center;
+}
+.os-table td.header {
   padding: 10px;
   text-align: center;   
 }
 td.header {
   width: 100px;
 }
-td.grade, td.result-cell {
+td.grade, div.grade, td.result-cell {
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
   background-repeat: repeat-x;
@@ -91,17 +104,22 @@ td.grade, td.result-cell {
 }
 .test-results-table td.grade {
 }
-.pass, tr.even td.sorting_1.pass, tr.odd td.sorting_1.pass {
+.pass {
   background: #AFE03C url('../images/pass.png')
 }
-.fail, tr.even td.sorting_1.fail, tr.odd td.sorting_1.fail {
+.fail {
   background: #A00E0E url('../images/fail.png')
 }
 .unknown {
   background: #EBE3D1 url('../images/unknown.png')
 }
-.fail a, .fail, td.fail.grade a, .os-table td.fail.result-cell {
+.fail a, td .grade.fail, .fail, td.fail.grade a, .os-table td.fail.result-cell {
   color: #E9E9E9
+}
+
+td .grade {
+    margin: 0px;
+    margin-right: 1px
 }
 
 #wrapper {
