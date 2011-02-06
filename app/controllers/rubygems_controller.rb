@@ -15,22 +15,17 @@ class RubygemsController < ApplicationController
 
   def show_paged
     rubygem = Rubygem.where(name: params[:rubygem_id]).last || Rubygem.where(id: params[:rubygem_id]).last
+
+    q = TestResult.where(rubygem_id: rubygem.id)
     
-    q = TestResult.where(rubygem_id: rubygem.id).includes(:version)
     @count = q.count
 
-    # Gem Version is pulled from the versions table
-    column_list = ['result', 'versions.number', 'platform', 'ruby_version', 'operating_system', 'architecture', 'vendor'].freeze
-
-    column_sorted = column_list[params[:iSortCol_0].to_i]
-    sort_direction = params[:sSortDir_0]
-
-    filtered_q = q.order("#{column_sorted} #{sort_direction}")
+    filtered_q = q.order("#{TestResult::DATATABLES_COLUMNS[params[:iSortCol_0].to_i]} #{params[:sSortDir_0]}").matching(params[:sSearch])
 
     @filtered_count = filtered_q.count
     @results = filtered_q.offset(params[:iDisplayStart]).limit(params[:iDisplayLength]).all
     
-    render json: {iTotalRecords: @filtered_count, iTotalDisplayRecords: @count, aaData: @results.collect(&:datatables_attributes)}
+    render json: {iTotalRecords: @count, iTotalDisplayRecords: @filtered_count, aaData: @results.collect(&:datatables_attributes)}
   end
 
   def show

@@ -2,16 +2,18 @@ require 'spec_helper'
 
 describe TestResult do
 
+  before do
+    @g = Factory.create :rubygem
+    @v = Factory.create :version, rubygem: @g
+    @t = Factory.build :test_result, version: @v, rubygem: @g
+  end
+
   it "should give attributes in datatables format" do
-    t = Factory.build :test_result
-    t.datatables_attributes.should == [true, "1.0.0.0", "someplatform", "3.0.0", "Linux", "somearch", "somevendor"]
+    @t.datatables_attributes.should == [true, "1.0.0.0", "someplatform", "3.0.0", "Linux", "somearch", "somevendor"]
   end
   
   it "should accept valid attributes to create a new object" do
-    g = Factory.create :rubygem
-    v = Factory.create :version, rubygem: g
-    t = Factory.build :test_result, version: v, rubygem: g
-    t.save.should be_true
+    @t.save.should be_true
   end
 
   it "should not accept test results without a proper gem id" do
@@ -35,23 +37,48 @@ describe TestResult do
   end
 
   it "should supply test results without test output, with associations" do
-    g = Factory.create :rubygem
-    v = Factory.create :version, rubygem: g
-    t = Factory.build :test_result, rubygem: g, version: v
-    attrs = t.short_attributes
+    attrs = @t.short_attributes
     attrs['test_output'].should be_nil
-    attrs['rubygem'].should == g.attributes
-    attrs['version'].should == v.attributes
+    attrs['rubygem'].should == @g.attributes
+    attrs['version'].should == @v.attributes
   end
 
   it "should supply test results without test output, without associations" do
-    g = Factory.create :rubygem
-    v = Factory.create :version, rubygem: g
-    t = Factory.build :test_result, rubygem: g, version: v
-    attrs = t.short_attributes with_associations: false
+    attrs = @t.short_attributes with_associations: false
     attrs['test_output'].should be_nil
     attrs['rubygem'].should be_nil
     attrs['version'].should be_nil
   end
 
+  describe 'should search for' do
+    it "passing results" do
+      Factory.create :test_result, result: false
+      Factory.create :test_result, result: true
+
+      t = TestResult.matching('pa')
+      t.size.should == 1
+      r = t.first
+      r.result.should == true
+    end
+    
+    it "failing results" do
+      Factory.create :test_result, result: false
+      Factory.create :test_result, result: true
+
+      t = TestResult.matching('fa')
+      t.size.should == 1
+      r = t.first
+      r.result.should == false
+    end
+
+    it "os results" do
+      Factory.create :test_result, operating_system: 'Linux'
+      Factory.create :test_result, operating_system: 'something else'
+
+      t = TestResult.matching('Li')
+      t.size.should == 1
+      r = t.first
+      r.operating_system.should == 'Linux'
+    end
+  end
 end

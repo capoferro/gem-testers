@@ -132,6 +132,21 @@ describe RubygemsController do
       response.body.should == expected_response
     end
 
+    describe "should search" do
+      before do
+        @params = @datatables_params.clone
+      end
+      it 'pass or fail' do
+        @params['sSearch'] = 'pass'
+        t = Factory.create :test_result, result: true
+        expected_response = {iTotalRecords: 1, iTotalDisplayRecords: 1, aaData: [t.datatables_attributes]}.to_json
+        get :show_paged, @params
+
+        response.should be_successful
+        response.body.should == expected_response
+      end
+    end
+    
     describe "should honor sorting in for" do
       before do
         @params = @datatables_params.clone
