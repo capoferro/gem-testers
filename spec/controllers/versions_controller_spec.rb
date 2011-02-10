@@ -44,7 +44,9 @@ describe VersionsController do
 
     it 'should respond to json format' do
       get :show, rubygem_id: @r.name, id: @v.number + '.json'
-      response.body.should == @v.to_json(include: :test_results)
+      v_json = JSON::parse(@v.to_json(include: :test_results))
+      data = v_json.merge(pass_count: 10, fail_count: 0)
+      response.body.should == data.to_json
     end
 
     it 'should #show successfully' do

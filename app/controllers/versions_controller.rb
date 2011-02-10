@@ -20,8 +20,13 @@ class VersionsController < ApplicationController
     @platform = params[:platform] unless params[:platform].blank?
     
     if respond_to_json
-      render json: @version, include: :test_results if not @version.nil?
-      render json: {} if @version.nil?
+      if @version.nil?
+        render json: {}
+      else
+        # :(
+        data = JSON::parse @version.to_json(include: :test_results)
+        render json: data.merge(pass_count: TestResult.where(result: true, version_id: @version.id).count, fail_count: TestResult.where(result: false, version_id: @version.id).count)
+      end
     else
       if @rubygem.nil?
         flash[:notice] = "Couldn't find that gem!"
