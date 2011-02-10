@@ -306,3 +306,7 @@ input#rubygems {
     display: none;
     height: 100%;
 }
+
+.button-wrapper {
+    text-align: right
+}

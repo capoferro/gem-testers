@@ -1,19 +1,34 @@
 - content_for :javascripts do
   :javascript
-    function toggle_output() {
+    function show_text() {
       var textbox = $('#textbox');
       var output = $('#output');
-      textbox.toggle();
       var height = output.height();
       var width = output.width();
       textbox.height(height);
       textbox.width(width - 6);
-      output.toggle();
-      textbox.find('textarea').select();
+      textbox.show();
+      var textarea = textbox.find('textarea');
+      textarea.select();
+      output.hide();
+      $('#button').html('Revert');
+      $('#button').unbind('click');
+      $('#button').bind('click', hide_text);
+    }
+    function hide_text() {
+      var textbox = $('#textbox');
+      var output = $('#output');
+      var height = output.height();
+      var width = output.width();
+      output.show();
+      textbox.hide();
+      $('#button').html('Select All');
+      $('#button').unbind('click');
+      $('#button').bind('click', show_text);
     }
     $(document).ready(function() {
-      $('#textbox textarea').bind('mouseout', toggle_output);
-      $('#output').bind('click', toggle_output);
+      $('#button').unbind('click');
+      $('#button').bind('click', show_text);
     });
 
 .title
@@ -27,9 +42,12 @@
   = render :partial => 'shared/test_result', :object => @result
 .border.no-padding
   .background.no-padding
+    .button-wrapper
+      %button#button
+        Select All
     #textbox
       %textarea
-        = @result.test_output
+        = filter_ansi @result.test_output
     #output{title: 'Select all'}
       %code
         %pre=filter_ansi @result.test_output
