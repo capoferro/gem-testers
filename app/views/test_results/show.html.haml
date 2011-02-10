@@ -43,7 +43,7 @@
 .border.no-padding
   .background.no-padding
     .time
-      Submitted on #{@result.created_at.strftime('%m/%d/%Y at %I:%M%p').downcase }
+      Submitted on #{@result.created_at.strftime('%m/%d/%Y at %I:%M%p %Z').downcase }
     .button-wrapper
       %button#button
         Select All
