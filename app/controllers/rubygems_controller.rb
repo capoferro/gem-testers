@@ -23,7 +23,7 @@ class RubygemsController < ApplicationController
     @platform = params[:platform] unless params[:platform].blank?
 
     respond_to do |format|
-      format.json { render json: (@rubygem.nil? ? {} : @rubygem.to_json(include: { versions: {include: :test_results} } )) }
+      format.json { render json: (@rubygem.nil? ? {} : @rubygem.to_json(methods: [:pass_count, :fail_count], include: { versions: {methods: [:pass_count, :fail_count], include: :test_results} } )) }
       format.html do
         if @rubygem
           @paged_source = rubygem_paged_path(@rubygem.name, %q[json])

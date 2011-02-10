@@ -63,4 +63,18 @@ describe Version do
     v = Factory.build :version, rubygem: nil
     v.save.should be_false
   end
+
+  it 'should count passes' do
+    v = Factory.create :version, rubygem: @gem
+    3.times { Factory.create :test_result, version: v, rubygem: @gem, result: true }
+    2.times { Factory.create :test_result, version: v, rubygem: @gem, result: false }
+    v.pass_count.should == 3
+  end
+
+  it 'should count failures' do
+    v = Factory.create :version, rubygem: @gem
+    1.times { Factory.create :test_result, version: v, rubygem: @gem, result: true }
+    2.times { Factory.create :test_result, version: v, rubygem: @gem, result: false }
+    v.fail_count.should == 2
+  end
 end

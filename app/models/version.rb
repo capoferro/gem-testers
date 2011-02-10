@@ -13,4 +13,12 @@ class Version < ActiveRecord::Base
     self.prerelease = false if self.prerelease.nil?
     not self.prerelease.nil?
   end
+
+  def pass_count
+    TestResult.where(result: true, version_id: self.id).count
+  end
+
+  def fail_count
+    TestResult.where(result: false, version_id: self.id).count
+  end
 end

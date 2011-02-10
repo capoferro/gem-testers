@@ -23,9 +23,7 @@ class VersionsController < ApplicationController
       if @version.nil?
         render json: {}
       else
-        # :(
-        data = JSON::parse @version.to_json(include: :test_results)
-        render json: data.merge(pass_count: TestResult.where(result: true, version_id: @version.id).count, fail_count: TestResult.where(result: false, version_id: @version.id).count)
+        render json: @version, include: [:test_results], methods: [:pass_count, :fail_count]
       end
     else
       if @rubygem.nil?
