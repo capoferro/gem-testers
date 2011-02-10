@@ -290,3 +290,13 @@ input#rubygems {
     text-align: center;
     background: #CBC2AE;
 }
+
+#textbox textarea{
+    height: 100%;
+    width: 100%;
+}
+
+#textbox {
+    display: none;
+    height: 100%;
+}

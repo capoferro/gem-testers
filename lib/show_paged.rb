@@ -15,8 +15,6 @@ module ShowPaged
     
     @count = q.count
 
-    filtered_q = q.order("#{TestResult::DATATABLES_COLUMNS[params[:iSortCol_0].to_i]} #{params[:sSortDir_0]}")
-
     unless params[:sSearch].nil? or params[:sSearch].empty?
       filtered_q = filtered_q.matching(params[:sSearch])
     end

@@ -1,3 +1,21 @@
+- content_for :javascripts do
+  :javascript
+    function toggle_output() {
+      var textbox = $('#textbox');
+      var output = $('#output');
+      textbox.toggle();
+      var height = output.height();
+      var width = output.width();
+      textbox.height(height);
+      textbox.width(width - 6);
+      output.toggle();
+      textbox.find('textarea').select();
+    }
+    $(document).ready(function() {
+      $('#textbox textarea').bind('mouseout', toggle_output);
+      $('#output').bind('click', toggle_output);
+    });
+
 .title
   - if @result.version.prerelease
     .prerelease-badge
@@ -9,6 +27,9 @@
   = render :partial => 'shared/test_result', :object => @result
 .border.no-padding
   .background.no-padding
-    #output
+    #textbox
+      %textarea
+        = @result.test_output
+    #output{title: 'Select all'}
       %code
         %pre=@result.test_output
