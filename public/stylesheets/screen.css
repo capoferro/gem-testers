@@ -20,6 +20,12 @@ body {
   text-align: center;
 }
 
+#topnav div {
+  margin-top: 1em;
+  color: #AAA;
+  font-size: 2em;
+}
+
 #intro {
   padding: 0 20px;
   font-size: 1.5em;

@@ -7,6 +7,7 @@ describe "versions/show.html.haml" do
     assign(:operating_systems, [])
     assign(:platform, nil)
     assign(:rubygem, @gem)
+    assign(:os_matrix, [[]])
   end
 
   it "should display a prerelease badge when version tested is a prerelease" do
@@ -15,7 +16,7 @@ describe "versions/show.html.haml" do
     assign(:result, @result)
     assign(:version, @version)
     assign(:all_test_results, [@result])
-    assign(:test_results, [@result])          
+    assign(:test_results, [@result])
 
     render
 

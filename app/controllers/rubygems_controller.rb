@@ -55,11 +55,8 @@ class RubygemsController < ApplicationController
     end
 
     if rubygem
-      respond_to do |format|
-        format.xml do
-          render :text => generate_feed(rubygem)
-        end
-      end
+      headers["Content-Type"] = "application/atom+xml"
+      render :text => generate_feed(rubygem)
     else
       head 403
     end

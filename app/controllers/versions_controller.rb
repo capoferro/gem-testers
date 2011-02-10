@@ -18,8 +18,6 @@ class VersionsController < ApplicationController
     @rubygem = Rubygem.where(name: params[:rubygem_id]).first
     @version = Version.where(number: version_number, rubygem_id: @rubygem.id).first if @rubygem
     @platform = params[:platform] unless params[:platform].blank?
-
-    
     
     if respond_to_json
       render json: @version, include: :test_results if not @version.nil?
