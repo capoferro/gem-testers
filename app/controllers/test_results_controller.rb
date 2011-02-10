@@ -64,10 +64,15 @@ class TestResultsController < ApplicationController
       flash[:notice] = "We could not locate that test result."
       (redirect_to :back rescue redirect_to root_url) and return
     end
-    
-    respond_to do |format|
-      format.json { render json: (@result || {}) }
-      format.html
+
+    # rails likes Accept: for respond_to - we would prefer to be able to debug
+    # our application in a reasonable manner.
+    case File.extname request.fullpath
+    when '.json'
+      headers["Content-Type"] = "application/json"
+      render json: (@result || {}) 
+    else
+      render
     end
   end
   
