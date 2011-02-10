@@ -11,4 +11,4 @@
   .background.no-padding
     #output
       %code
-        %pre=@result.test_output
+        %pre=filter_ansi @result.test_output
