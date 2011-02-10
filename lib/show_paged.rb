@@ -11,12 +11,12 @@ module ShowPaged
       conditions.merge!(version_id: v.id)
     end
     
-    q = TestResult.where(conditions).includes(:version).includes(:rubygem)
+    filtered_q = q = TestResult.where(conditions).includes(:version).includes(:rubygem)
     
     @count = q.count
 
     unless params[:sSearch].nil? or params[:sSearch].empty?
-      filtered_q = filtered_q.matching(params[:sSearch])
+      filtered_q = q.matching(params[:sSearch])
     end
 
     @filtered_count = filtered_q.count

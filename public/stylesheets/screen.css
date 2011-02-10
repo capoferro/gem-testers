@@ -230,7 +230,8 @@ td .grade {
 
 #output {
   font-size: 2em;
-  overflow: scroll;
+  overflow: auto;
+  word-wrap: break-word;
   color: #B4AC99;
   background: #011;
 }
