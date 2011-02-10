@@ -10,13 +10,14 @@ describe TestResult do
 
   it "should give attributes in datatables format" do
     @t.save!
-    @t.datatables_attributes.should == ["<a href=\"/gems/ruby1stgem/v/1.0.0.0/test_results/1\"><div class=\"datatable-cell grade pass\">PASS</div></a></a>",
-                                        "<div class=\"datatable-cell\">1.0.0.0</div>",
-                                        "<div class=\"datatable-cell\">someplatform</div>",
-                                        "<div class=\"datatable-cell\">3.0.0</div>",
-                                        "<div class=\"datatable-cell\">Linux</div>",
-                                        "<div class=\"datatable-cell\">somearch</div>",
-                                        "<div class=\"datatable-cell\">somevendor</div>"]
+    pass_fail = @t.result ? 'pass' : 'fail'
+    @t.datatables_attributes.should == ["<a href=\"/gems/#{@g.name}/v/#{@v.number}/test_results/#{@t.id}\"><div class=\"datatable-cell grade #{pass_fail}\">#{pass_fail.upcase}</div></a></a>",
+                                        "<div class=\"datatable-cell\">#{@v.number}</div>",
+                                        "<div class=\"datatable-cell\">#{@t.platform}</div>",
+                                        "<div class=\"datatable-cell\">#{@t.ruby_version}</div>",
+                                        "<div class=\"datatable-cell\">#{@t.operating_system}</div>",
+                                        "<div class=\"datatable-cell\">#{@t.architecture}</div>",
+                                        "<div class=\"datatable-cell\">#{@t.vendor}</div>"]
   end
   
   it "should accept valid attributes to create a new object" do
