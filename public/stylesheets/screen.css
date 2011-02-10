@@ -308,6 +308,14 @@ input#rubygems {
     height: 100%;
 }
 
+.time {
+    float: left;
+    padding: 7px;
+}
 .button-wrapper {
-    text-align: right
+    float: right;
+}
+
+.clear-both {
+    clear: both;
 }
