@@ -27,7 +27,6 @@ class TestResultsController < ApplicationController
     end
   end
 
-
   def create
     @response = Response.new
 
@@ -60,19 +59,14 @@ class TestResultsController < ApplicationController
   def show
     @result = TestResult.where(id: params[:id]).first
 
-    if @result.nil? and params[:format].nil?
+    if @result.nil? and params[:format] != "json"
       flash[:notice] = "We could not locate that test result."
       (redirect_to :back rescue redirect_to root_url) and return
     end
 
-    # rails likes Accept: for respond_to - we would prefer to be able to debug
-    # our application in a reasonable manner.
-    case File.extname request.fullpath
-    when '.json'
-      headers["Content-Type"] = "application/json"
-      render json: (@result || {}) 
-    else
-      render
+    respond_to do |format|
+      format.json { render json: (@result || {}) }
+      format.html
     end
   end
   

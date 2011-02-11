@@ -1,7 +1,6 @@
 require 'rss_feed'
 require 'show_paged'
 
-
 class RubygemsController < ApplicationController
 
   include ShowPaged
