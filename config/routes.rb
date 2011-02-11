@@ -8,7 +8,7 @@ GemTesters::Application.routes.draw do
       resources :versions, path: 'v' do
         get '/paged' => 'versions#show_paged', as: 'paged', format: :json
         get '/:id' => "versions#show", as: 'show', format: [:html, :json]
-        resources :test_results
+        resources :test_results 
       end
     end
   end

@@ -57,9 +57,22 @@ class TestResultsController < ApplicationController
   end
 
   def show
-    @result = TestResult.where(id: params[:id]).first
+ 
+    # HACK HACK HACK
+    # please see the comments relating to the json problem in the versions
+    # controller's show action
+    # HACK HACK HACK
+    
+    result_id = params[:id]
 
-    if @result.nil? and params[:format] != "json"
+    if params[:id] =~ /\.json$/
+      result_id = params[:id].sub(/\.json$/, '')
+      request.format = :json
+    end
+
+    @result = TestResult.where(id: result_id).first
+
+    if @result.nil? and request.format != :json
       flash[:notice] = "We could not locate that test result."
       (redirect_to :back rescue redirect_to root_url) and return
     end
