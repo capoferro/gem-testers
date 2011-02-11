@@ -10,4 +10,12 @@ class Rubygem < ActiveRecord::Base
   has_many :test_results
   has_many :versions
 
+  def pass_count
+    TestResult.where(result: true, rubygem_id: self.id).count
+  end
+
+  def fail_count
+    TestResult.where(result: false, rubygem_id: self.id).count
+  end
+  
 end

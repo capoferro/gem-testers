@@ -42,9 +42,12 @@
   = render :partial => 'shared/test_result', :object => @result
 .border.no-padding
   .background.no-padding
+    .time
+      Submitted on #{@result.created_at.strftime('%m/%d/%Y at %I:%M%p %Z').downcase }
     .button-wrapper
       %button#button
         Select All
+    %br.clear-both
     #textbox
       %textarea
         = filter_ansi @result.test_output

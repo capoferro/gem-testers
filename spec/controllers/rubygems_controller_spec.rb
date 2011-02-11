@@ -32,8 +32,7 @@ describe RubygemsController do
     
     get :show, id: @g.name, format: 'json'
     response.should be_success
-    response.body.should == @g.to_json(include: { versions: {include: :test_results} } )
-
+    response.body.should == @g.to_json(methods: [:pass_count, :fail_count], include: { versions: {methods: [:pass_count, :fail_count], include: :test_results} } )
   end
 
   it 'should be successful when the rubygem is not found' do

@@ -27,4 +27,20 @@ describe Rubygem do
       g.save.should be_false
     end
   end
+
+  it 'should count passes' do
+    g = Factory.create :rubygem
+    Factory.create :test_result, rubygem: g, result: true
+    2.times { Factory.create :test_result, rubygem: g, result: false }
+    
+    g.pass_count.should == 1
+  end
+  
+  it 'should count failures' do
+    g = Factory.create :rubygem
+    Factory.create :test_result, rubygem: g, result: true
+    2.times { Factory.create :test_result, rubygem: g, result: false }
+    
+    g.fail_count.should == 2
+  end
 end

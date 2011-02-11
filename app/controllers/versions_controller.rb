@@ -31,8 +31,11 @@ class VersionsController < ApplicationController
 
     respond_to do |format|
       format.json do 
-        render json: @version, include: :test_results if not @version.nil?
-        render json: {} if @version.nil?
+        if @version.nil?
+          render json: {}
+        else
+          render json: @version, include: [:test_results], methods: [:pass_count, :fail_count]
+        end
       end
 
       format.html do
@@ -60,6 +63,5 @@ class VersionsController < ApplicationController
       end
     end
   end
-
 end
 
