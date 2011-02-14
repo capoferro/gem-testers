@@ -13,7 +13,9 @@ class RubygemsController < ApplicationController
       render json: gem_names
     else
       respond_to do |format|
-        format.html { @latest_results = TestResult.order('created_at DESC').limit(10) }
+        format.html do
+          @latest_results = TestResult.order('created_at DESC').limit(10)
+        end
       end
     end
   end

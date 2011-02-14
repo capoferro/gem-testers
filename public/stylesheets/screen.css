@@ -268,24 +268,6 @@ input#rubygems {
     color: #a00;
 }
 
-#latest-results {
-  border: 3px solid #CBC2AE;
-  margin: 10px;
-  padding: 0;
-  padding-bottom: 10px;
-}
-
-#latest-results div h2 { 
-  margin-top 0;
-  background-color: #CBC2AE;
-  padding: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-#latest-results h2 { text-align: center; }
-#latest-results table { width: 80%; margin-left: auto; margin-right: auto; }
-#latest-results td { font-size: 1.2em; padding: 5px; }
 
 .prerelease-badge {
     border-radius: 3px;
@@ -318,4 +300,50 @@ input#rubygems {
 
 .clear-both {
     clear: both;
+}
+
+#latest-results h2 { text-align: center; }
+#latest-results table { width: 80%; margin: 0 auto; }
+
+#latest-results div h2 { 
+  margin-top 0;
+  background-color: #CBC2AE;
+  padding: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  -moz-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+}
+
+#latest-results ul {
+    padding: 10px;
+}
+#latest-results li {
+  outline: 1px solid #B4AC99;
+  width: 50%;
+  color: rbga(0,0,0,0.8);
+  float: left;
+  list-style: none;
+  font-size: 1.2em;
+}
+#latest-results li a {
+  background: #ECE5D6 url('../images/leaderboard.png') repeat-x;
+  margin: 4px;
+  padding: 7px;
+  font-weight: 900;
+  display: block;
+  overflow: hidden;
+  color: #000;
+  height: 21px;
+  line-height: 23px;
+  opacity:0.7;
+  filter:alpha(opacity=70);
+  text-decoration: none;
+}
+
+#latest-results li a:hover {
+    background: transparent;
+}
+#latest-results li a.fail-box:hover {
+    color: #E9E9E9   
 }

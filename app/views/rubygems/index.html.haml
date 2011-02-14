@@ -12,20 +12,14 @@
 
 #latest-results
   %div
-    %h2 Latest Test Results
-  %table 
-    - @latest_results.each_slice(2) do |left_result, right_result|
-      %tr
-        - [left_result, right_result].each do |result|
-          - next unless result
-          %td
-            %a{:href => rubygem_version_test_result_url(result.rubygem.name, result.version.number, result)}
-              = result.rubygem.name
-              \-
-              = result.version.number
-              = "(#{result.result ? "Pass" : "Fail"}, #{result.created_at.strftime('%m-%d %H:%M:%S')})"
+    %h2 Most Recent
+  %ul
+    - @latest_results.each do |result|
+      %li{class: (result.result ? 'pass' : 'fail')}
+        %a{href: rubygem_version_test_result_url(result.rubygem.name, result.version.number, result), class: (result.result ? 'pass-box' : 'fail-box')}
+          #{result.rubygem.name} (#{result.version.number})
 
-
+.clear-both
 #intro
   %h2
     What?
