@@ -306,18 +306,22 @@ input#rubygems {
 #latest-results table { width: 80%; margin: 0 auto; }
 
 #latest-results div h2 { 
-  margin-top: 0;
+  margin-top: 10px;
   background-color: #CBC2AE;
   padding: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 9px;
+  margin-right: 9px;
   -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
+  margin-bottom: 0;
 }
 
 #latest-results ul {
-    padding: 10px;
+  margin: 0;
+  padding-left: 10px;
+  padding-right: 10px;
 }
+
 #latest-results li {
   outline: 1px solid #B4AC99;
   width: 50%;
