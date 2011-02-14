@@ -1,56 +1,27 @@
 - content_for :javascripts do
-  :javascript
-    function show_text() {
-      var textbox = $('#textbox');
-      var output = $('#output');
-      var height = output.height();
-      var width = output.width();
-      textbox.height(height);
-      textbox.width(width - 6);
-      textbox.show();
-      var textarea = textbox.find('textarea');
-      textarea.select();
-      output.hide();
-      $('#button').html('Revert');
-      $('#button').unbind('click');
-      $('#button').bind('click', hide_text);
-    }
-    function hide_text() {
-      var textbox = $('#textbox');
-      var output = $('#output');
-      var height = output.height();
-      var width = output.width();
-      output.show();
-      textbox.hide();
-      $('#button').html('Select All');
-      $('#button').unbind('click');
-      $('#button').bind('click', show_text);
-    }
-    $(document).ready(function() {
-      $('#button').unbind('click');
-      $('#button').bind('click', show_text);
-    });
+  = javascript_include_tag 'test_results'
+- content_for :stylesheets do
+  = stylesheet_link_tag 'test_results'
 
-.title
-  - if @result.version.prerelease
-    .prerelease-badge
-      prerelease
-  %h2
-    = link_to(@result.rubygem.name, rubygem_path(@result.rubygem.name))
+#results.top-section
+  = render :partial => "shared/rubygem", :locals => {:rubygem => @result.rubygem, :version => @result.version}
   = link_to(@result.version.number, rubygem_version_path(@result.rubygem.name, @result.version.number), :class => 'version')
-= render :layout => 'shared/test_results_datatable' do
-  = render :partial => 'shared/test_result', :object => @result
-.border.no-padding
-  .background.no-padding
+  .clear
+  
+  %table.gem-info
+    = render :partial => "shared/test_result_headers"
+    = render :partial => "shared/test_result_body", :locals => {:result => @result}
+
+  #submission-detail
     .time
-      Submitted on #{@result.created_at.strftime('%m/%d/%Y at %I:%M%p %Z').downcase }
-    .button-wrapper
-      %button#button
-        Select All
-    %br.clear-both
-    #textbox
-      %textarea
-        = filter_ansi @result.test_output
-    #output
-      %code
-        %pre=filter_ansi @result.test_output
+      Submitted on #{ @result.created_at.strftime('%m/%d/%Y at %I:%M%p %Z').downcase }
+    %button#select-all
+      Select All
+    .clear
+
+  #textbox{:style => "display: none"}
+    %textarea
+      = filter_ansi @result.test_output
+  #output
+    %code
+      =filter_ansi @result.test_output

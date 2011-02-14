@@ -5,19 +5,29 @@
     %title
       Gem Testers
     = stylesheet_link_tag 'jquery-ui-1.8.6.custom'
+    = stylesheet_link_tag 'base'
+    = stylesheet_link_tag 'gem_search'
     = yield :stylesheets
-    = stylesheet_link_tag 'screen'
+
     = javascript_include_tag 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js'
     = javascript_include_tag 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js'
     = javascript_include_tag 'application'
+    = javascript_include_tag 'gem_search'
     = yield :javascripts
     = yield :feeds
     = csrf_meta_tag
+
   %body
-    #topnav
-      %a{:href => root_path} Gem Testers
-      %div Tests run everywhere, collected here. 
     #wrapper
-      .info
+      #topnav
+        %a{:href => root_path} Gem Testers - tests run everywhere, collected here.
+        #gem-search
+          %form{:onsubmit => "window.location = '/gems/' + $('#rubygems', this).val(); return false"}
+            #search-icon
+              %img{:src => "/images/search.png"}
+            %input#rubygems
+        %div.clear
+
+      #content
         .flash=flash[:notice]
         = yield

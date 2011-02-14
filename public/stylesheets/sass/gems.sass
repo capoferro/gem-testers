@@ -1,0 +1,87 @@
+#gem-show
+  h2 
+    float: left
+    font-size: 36px
+    color: #822c2c
+    text-decoration: none
+
+    a
+      font-size: 36px
+      color: #822c2c
+      text-decoration: none
+
+  .nav
+    float: left
+    
+    select
+      font-size: 14px
+      color: #666666
+      margin: 10px 0 0 15px
+    
+  #summary
+    border-top: 1px solid #E6E6E6
+    border-bottom: 1px solid #E6E6E6
+    margin: 15px 0 25px 0
+    background: #F3EEE5
+
+    table
+      font-size: 12px
+      margin: 15px auto
+
+      tr
+        td
+          text-align: center
+          width: 100px
+          padding: 10px
+      
+        td.os
+          text-align: left
+      
+        td.result-cell.pass
+          background: #ADD8AD
+          font-weight: bold
+          color: #093B09
+          text-shadow: 1px 1px 0 #D4F1D4
+      
+        td.result-cell.fail
+          font-weight: bold
+          background: #D8ADAD
+          color: #3A0E0E
+          text-shadow: 1px 1px 0 #EED0D0
+
+  .test-results-table
+    width: 100%
+    font-size: 12px
+    border-spacing: 0
+    
+    tr
+      background: none
+      
+      th
+        padding: 5px 0 2px 0
+        border-bottom: 1px solid #DDDDDD
+        border-left: 1px solid #DDDDDD
+
+        .ui-icon
+          margin-top: -14px
+      
+      td
+        padding: 0
+        margin: 5px 0
+        text-align: center
+        border-bottom: 1px solid #E2E2E2
+        
+        a
+          text-decoration: none
+          color: #000000
+
+      .grade
+        padding: 5px 0
+        height: 100%
+        font-weight: bold
+
+      .grade.pass
+        background: #ADD8AD
+    
+      .grade.fail
+        background: #D8ADAD

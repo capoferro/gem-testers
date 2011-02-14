@@ -1,77 +1,68 @@
-- content_for :javascripts do
-  = javascript_include_tag 'gem_search'
+- content_for :stylesheets do
+  = stylesheet_link_tag 'homepage'
 
-
-#gem-search
-  %form{:onsubmit => "window.location = '/gems/' + $('#rubygems', this).val(); return false"}
-    %input#rubygems
-    %br
-    %label
-      search for a gem!
-
-
-#latest-results
-  %div
+.top-section
+  #latest-results
     %h2 Latest Test Results
-  %table 
-    - @latest_results.each_slice(2) do |left_result, right_result|
-      %tr
-        - [left_result, right_result].each do |result|
-          - next unless result
-          %td
+    %ul
+      - @latest_results.each do |result|
+        %li{:class => result.result ? "result pass" : "result fail"}
+          %p.gem-name
             %a{:href => rubygem_version_test_result_url(result.rubygem.name, result.version.number, result)}
               = result.rubygem.name
-              \-
-              = result.version.number
-              = "(#{result.result ? "Pass" : "Fail"}, #{result.created_at.strftime('%m-%d %H:%M:%S')})"
+              = "(" + result.version.number + ")"
+          %p.date
+            = result.created_at.strftime('%Y-%m-%d %H:%M:%S')
+      .clear
 
+#intro.top-section
+  %div.info
+    .section
+      %h2
+        What?
+      %p
+        GemTesters is a community effort to document the test results for
+        various gems, on various machine architectures.
 
-#intro
+    .section
+      %h2
+        Why?
+      %p
+        So participating gem maintainers and authors can ensure their code
+        works on all platforms.
+
+    .section.last
+      %h2
+        How?
+      %pre
+        gem install rubygems-test
+      %pre
+        gem test my_favorite_gem
+      %p
+        Learn more in the
+        %a{:href => "https://github.com/rubygems/rubygems-test/blob/master/README.txt"}
+          README
+    .clear
+
+#participate
   %h2
-    What?
-  %p
-    This is test output collected from gems people install on their machines.
-    If you write a gem, you can come here to see if your tests pass on other
-    people's machines.
-  %h2
-    Why?
-  %p
-    So participating gem authors can fix their gems when they break on
-    different environments.
-  %h2
-    How?
-  %p
-    People who like being useful (like you) install the rubygems-test rubygems
-    plugin:  
-    %a{:href => "http://rubygems.org/gems/rubygems-test"} gem install rubygems-test
-    \.
-    Then, run 
-    %code gem test myfavoritegem
-    at your commandline. If your gem has configured support for rubygems-test,
-    tests will be run and your results will (optionally) be posted here.
-  %h2
-    So?
-  %p
-    The more data gathered, the better the gems you use will get. Nothing is
-    more frustrating than finding a gem that doesn't quite work right, and
-    nothing is more useful than lots of test data when you're trying to find
-    out what's broken.
-  %p
-    Ultimately, these tests are submitted by gem users. While useful, take them
-    for what they are: user submitted. It's not always the gem writer's fault
-    that something failed. :)
-  %h2
-    I'm a gem author. How do I participate?
-  %p
-    Create (and add to your files section in your specification!) a ’.gemtest’ empty file. This is what signals the rubygems-test engine to process your gem as testable.
-  %p
-    Ensure ‘rake test’ works and doesn’t wipe out filesystems, databases, etc. Move those tests to another task.
-  %p
-    Be sure to include your Rakefile in your gem, along with your tests.
-  %p
-    Be sure to note any development dependencies that will be required for executing your rakefile and your tests in your gemspec. They will be installed as a part of the testing process.
-  %p
-    For more details, follow the 
-    %a{:href => "https://github.com/rubygems/rubygems-test/blob/master/README.txt"} README
-    for rubygems-test.
+    I'm a gem author, how do I participate?
+  %ol
+    %p 
+      Create (and add to your files section in your specification) a
+      %span.meta gemtest
+      empty file. This is what signals the rubygems-test 
+      engine to process your gem as testable.
+
+    %p 
+      Ensure rake test works and doesn’t wipe out filesystems,
+      databases, etc. Move those tests to another task.
+
+    %p 
+      Be sure to include your Rakefile in your gem, along with your tests.
+
+    %p 
+      Be sure to note any development dependencies that will be required
+      for executing your rakefile and your tests in your gemspec. They
+      will be installed as a part of the testing process.
 

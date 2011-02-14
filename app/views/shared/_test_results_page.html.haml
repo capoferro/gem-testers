@@ -1,42 +1,24 @@
 - content_for :javascripts do
   :javascript
-    $(document).ready(function() {
-                    table = $('.test-results-table').dataTable({ 
-                              bJQueryUI: true,
-                              bServerSide: true,
-                              sAjaxSource: '#{@paged_source}'
-                            });
-                    table.fnSort( [ [1,'desc'] ] );
-                  });
+    App.vars.paged_source = "#{@paged_source}";
+  = javascript_include_tag 'jquery.dataTables'
+  = javascript_include_tag 'gems'
+- content_for :stylesheets do
+  = stylesheet_link_tag 'demo_table_jui'
+  = stylesheet_link_tag 'gems'
+- content_for :feeds do
+  = auto_discovery_link_tag(:atom, rubygem_feed_url(@rubygem)) 
 
-.title
-  - if @version and @version.prerelease
-    .prerelease-badge
-      prerelease
-  %h2
-    = link_to(@rubygem.name, rubygem_path(@rubygem.name))
-  = version_select(@rubygem, @version, @platform)
-  = platform_select(@all_test_results, @rubygem, @platform, @version)
-.os-table-wrapper.border
-  .background
-    .os-table-centering-wrapper
-      .os-table-inner-centering-wrapper
-        - if @os_matrix.empty?
-          Nothing to see here!
-        - else
-          %table.os-table
-            %tr
-              %td.header
-                ruby -v
-              - @ruby_versions.each do |ruby|
-                %td.header.column-label
-                  = ruby || 'not reported'
-            - @operating_systems.each do |os|
-              %tr
-                %td.ruby-header.row-label
-                  = os.capitalize
-                - @ruby_versions.each do |ruby|
-                  %td.result-cell{:class => pass_fail(ruby, os)}
-                    = pass_fail(ruby, os) == 'unknown' ? ' ' : "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:pass] + @os_matrix[ruby][os][:fail]}"
-= render :partial => 'shared/test_results_datatable'
-  
+#gem-show.top-section
+  = render :partial => "shared/rubygem", :locals => {:rubygem => @rubygem, :version => @version}
+  .nav
+    = version_select(@rubygem, @version, @platform)
+    = platform_select(@all_test_results, @rubygem, @platform, @version)
+  .clear
+
+  = render :partial => "shared/test_results_summary"
+
+  .test-results-table-wrapper
+    %table.test-results-table
+      = render :partial => "shared/test_result_headers"
+      = render :partial => "shared/test_result_body", :collection => @results, :as => :result

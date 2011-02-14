@@ -1,3 +1,6 @@
-%tr
-  %td
-    = link_to rubygem.name, rubygem_path(rubygem)
+- if version && version.prerelease
+  .prerelease-badge
+    prerelease
+.clear
+%h2
+  = link_to(rubygem.name, rubygem_path(rubygem.name))
