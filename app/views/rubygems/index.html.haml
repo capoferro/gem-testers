@@ -15,7 +15,7 @@
     %h2 Most Recent
   %ul
     - @latest_results.each do |result|
-      %li{class: (result.result ? 'pass' : 'fail')}
+      %li{class: (result.result ? 'recent-pass' : 'recent-fail')}
         %a{href: rubygem_version_test_result_url(result.rubygem.name, result.version.number, result), class: (result.result ? 'pass-box' : 'fail-box')}
           #{result.rubygem.name} (#{result.version.number})
 
