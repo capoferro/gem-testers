@@ -1,7 +1,6 @@
 require 'rss_feed'
 require 'show_paged'
 
-
 class RubygemsController < ApplicationController
 
   include ShowPaged
@@ -57,8 +56,9 @@ class RubygemsController < ApplicationController
     end
 
     if rubygem
-      headers["Content-Type"] = "application/atom+xml"
-      render :text => generate_feed(rubygem)
+      respond_to do |format|
+        format.xml { render :text => generate_feed(rubygem) }
+      end
     else
       head 403
     end
