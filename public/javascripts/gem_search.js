@@ -10,7 +10,7 @@ App.GemSearch = {
   
   visit_gem_page: function (event, ui) {
     window.location = '/gems/' + ui.item.value;
-  }
+  },
   
   init: function () {
     this.search_box = $("#rubygems");
