@@ -27,7 +27,7 @@ module GemTesters
     config.middleware.use ExceptionNotifier,
       :email_prefix => "[Gem-Testers Exception] ",
       :sender_address => %{"Support" <support@gem-testers.org>},
-      :exception_recipients => %w{erik@hollensbe.org bluepojo@gmail.com}
+      :exception_recipients => %w{erik@hollensbe.org bluepojo@gmail.com} if Rails.env == 'production'
   end
 end
 

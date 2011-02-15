@@ -8,6 +8,7 @@ gem 'exception_notification', :git => 'git://github.com/erikh/exception_notifica
 gem 'tinyatom'
 
 group :development, :test do
+  gem "rails3-generators"
   gem 'cucumber-rails'
   gem 'factory_girl_rails'
   gem 'rspec-rails'
