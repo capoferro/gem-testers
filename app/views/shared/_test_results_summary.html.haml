@@ -1,0 +1,18 @@
+#summary
+  - if @os_matrix.empty?
+    Nothing to see here!
+  - else
+    %table
+      %tr
+        %th
+          ruby -v
+        - @ruby_versions.each do |ruby|
+          %th= ruby || "not reported"
+
+      - @operating_systems.each do |os|
+        %tr
+          %td.os
+            = os.capitalize
+          - @ruby_versions.each do |ruby|
+            %td.result-cell{:class => pass_fail(ruby, os)}
+              = pass_fail(ruby, os) == 'unknown' ? ' ' : "#{@os_matrix[ruby][os][:pass]}/#{@os_matrix[ruby][os][:pass] + @os_matrix[ruby][os][:fail]}"
