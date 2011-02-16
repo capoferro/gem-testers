@@ -15,8 +15,8 @@
   #submission-detail
     .time
       Submitted on #{ @result.created_at.strftime('%m/%d/%Y at %I:%M%p %Z').downcase }
-    %button#select-all
-      Select All
+    #copy
+      = clippy(@result.test_output)
     .clear
 
   #textbox{:style => "display: none"}
