@@ -25,5 +25,6 @@
     %textarea
       = filter_ansi @result.test_output
   #output
-    %code
-      =filter_ansi @result.test_output
+    %pre
+      %code
+        =filter_ansi @result.test_output
