@@ -1,5 +1,9 @@
+- content_for :javascripts do
+  = javascript_include_tag 'jquery.tipsy'
+  = javascript_include_tag 'test_results'
 - content_for :stylesheets do
   = stylesheet_link_tag 'test_results'
+  = stylesheet_link_tag 'tipsy'
 
 #results.top-section
   = render :partial => "shared/rubygem", :locals => {:rubygem => @result.rubygem, :version => @result.version}
@@ -13,7 +17,7 @@
   #submission-detail
     .time
       Submitted on #{ @result.created_at.strftime('%m/%d/%Y at %I:%M%p %Z').downcase }
-    #copy
+    #copy{:title => "copy to clipboard"}
       = clippy(@result.test_output)
     .clear
 
