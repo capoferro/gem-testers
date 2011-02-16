@@ -16,7 +16,7 @@
 
   #submission-detail
     .time
-      Submitted on #{ @result.created_at.strftime('%m/%d/%Y at %I:%M%p %Z').downcase }
+      Submitted #{ @result.created_at.strftime('%B %e, %I:%M:%S%p %Z') }
     #copy{:title => "copy to clipboard"}
       = clippy(@result.test_output)
     .clear
