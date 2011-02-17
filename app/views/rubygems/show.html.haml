@@ -1,4 +1,4 @@
 = content_for :feeds do
-  = auto_discovery_link_tag(:atom, rubygem_feed_url(@rubygem)) 
+  = auto_discovery_link_tag(:atom, rubygem_feed_url(@rubygem.name)) 
 
 = render :partial => 'shared/test_results_page'
